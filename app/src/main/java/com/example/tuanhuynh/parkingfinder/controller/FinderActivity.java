@@ -85,7 +85,9 @@ public class FinderActivity extends AppCompatActivity {
 
                 locationList = Location.ITEMS;
 
-                //locationAdapter = new ArrayAdapter<Location.LocationInfo>(locationList);
+                locationAdapter = new ArrayAdapter<Location.LocationInfo>(FinderActivity.this,
+                        android.R.layout.simple_list_item_1,
+                        android.R.id.text1, locationList);
 
             }
         });
