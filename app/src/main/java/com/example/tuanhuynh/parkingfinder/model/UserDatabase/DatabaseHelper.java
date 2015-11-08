@@ -54,6 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * passing context to database
+     *
      * @param context context of database
      */
     public DatabaseHelper(Context context) {
@@ -62,6 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * execute SQLite to create a table
+     *
      * @param db database
      */
     @Override
@@ -72,7 +74,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * upgrade a new database if table exists
-     * @param db database
+     *
+     * @param db         database
      * @param oldVersion of database
      * @param newVersion of database
      */
@@ -85,6 +88,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * insert new user for registration
+     *
      * @param user new user
      */
     public void insert(User user) {
@@ -106,25 +110,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * look up password which must be equivalent to a particular username for login
+     *
      * @param username username
      * @return password which is equivalent to that username
      */
     public String searchPassword(String username) {
 
         db = this.getReadableDatabase();
-        String query = "select username, password from " +TABLE_NAME;
+        String query = "select username, password from " + TABLE_NAME;
         Cursor cursor = db.rawQuery(query, null);
         String uName, pwd;
         pwd = "Not Found";
-        if (cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
                 uName = cursor.getString(0);
-                if (uName.equals(username)){
+                if (uName.equals(username)) {
                     pwd = cursor.getString(1);
                     break;
                 }
             }
-            while(cursor.moveToNext());
+            while (cursor.moveToNext());
         }
 
         return pwd;
@@ -132,6 +137,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * make sure email is registered once for an account
+     *
      * @param emailStr string email
      * @return email of registration
      */
@@ -141,14 +147,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query = "select Email from " + TABLE_NAME;
         Cursor cursor = db.rawQuery(query, null);
         String email = "";
-        if(cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             do {
                 email = cursor.getString(0);
-                if (email.equals(emailStr)){
+                if (email.equals(emailStr)) {
                     break;
                 }
             }
-            while(cursor.moveToNext());
+            while (cursor.moveToNext());
         }
         return email;
     }

@@ -11,13 +11,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 
-import com.example.tuanhuynh.parkingfinder.JSONLocationArray;
-import com.example.tuanhuynh.parkingfinder.Location;
+import com.example.tuanhuynh.parkingfinder.JSONParser;
+import com.example.tuanhuynh.parkingfinder.model.UserDatabase.Location;
 import com.example.tuanhuynh.parkingfinder.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.List;
 
 /**
  * this class shows the UI of search activity for user that allows user to search nearby
@@ -27,6 +34,10 @@ import java.io.IOException;
 public class FinderActivity extends AppCompatActivity {
 
     private static final String TAG = "FinderActivity";
+    private Button searchButton;
+    private List<Location.LocationInfo> locationList;
+    public ListView mListView;
+    public ArrayAdapter<Location.LocationInfo> locationAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,20 +56,39 @@ public class FinderActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
         /*
-        * manging connection from the application to networking service
-        * before attempting to fetch url, make sure there is a network connection
+        retrieve search button actions
          */
-        ConnectivityManager connectivityManager = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networtInfo = connectivityManager.getActiveNetworkInfo();
-        if(networtInfo != null && networtInfo.isConnected()){
-            DownloadWebpageTask task = new DownloadWebpageTask();
-            task.execute();
-            Log.i(TAG, "connected");
-        } else {
-            Log.i(TAG, "not connected");
-        }
+        searchButton = (Button)findViewById(R.id.search_button);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*
+                * manging connection from the application to networking service
+                * before attempting to fetch url, make sure there is a network connection
+                */
+                ConnectivityManager connectivityManager = (ConnectivityManager)
+                        getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networtInfo = connectivityManager.getActiveNetworkInfo();
+                if(networtInfo != null && networtInfo.isConnected()){
+                    DownloadWebpageTask task = new DownloadWebpageTask();
+                    task.execute();
+                    Log.i(TAG, "connected");
+                } else {
+                    Log.i(TAG, "not connected");
+                }
+                /*
+                Retrieve data to listview
+                 */
+                mListView = (ListView)findViewById(R.id.listView);
+
+                locationList = Location.ITEMS;
+
+                //locationAdapter = new ArrayAdapter<Location.LocationInfo>(locationList);
+
+            }
+        });
 
     }
 
@@ -72,11 +102,11 @@ public class FinderActivity extends AppCompatActivity {
     private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            JSONLocationArray jsonLocationArray = new JSONLocationArray();
-            // params comes from the execute() call: params[0] is the url.
-            Location location = new Location();
+            JSONParser jsonParser = new JSONParser();
+//             params comes from the execute() call: params[0] is the url.
+//            Location location = new Location();
             try {
-                return jsonLocationArray.getJSON();
+                return jsonParser.getJSON();
             } catch (IOException e) {
                 return "Unable to retrieve web page. URL may be invalid.";
             }
@@ -88,8 +118,35 @@ public class FinderActivity extends AppCompatActivity {
          */
         @Override
         protected void onPostExecute(String result) {
-            TextView textView = (TextView)findViewById(R.id.textView);
-            textView.setText(result);
+            super.onPostExecute(result);
+
+//            TextView textView = (TextView)findViewById(R.id.textView);
+//            textView.setText(result);
+
+            try {
+                locationList.clear();
+                Location.ITEMS.clear();
+                JSONArray locationArray = new JSONArray(result);
+
+                for (int i=0; i<locationArray.length(); i++){
+                    JSONObject location = locationArray.getJSONObject(i);
+
+                    String location_name = location.getString("name");
+                    String address = location.getString("address");
+                    String city = location.getString("city");
+                    String state = location.getString("state");
+                    String zip = location.getString("zip");
+                    int distance = location.getInt("distance");
+
+                    Location.ITEMS.add(new Location.LocationInfo(location_name, distance));
+                }
+
+                locationList = Location.ITEMS;
+                mListView.setAdapter(locationAdapter);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 

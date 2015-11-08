@@ -10,6 +10,7 @@ public class User {
 
     /**
      * get email of user
+     *
      * @return email of user
      */
     public String getEmail() {
@@ -18,7 +19,8 @@ public class User {
 
     /**
      * set email
-     * @param email
+     *
+     * @param email email
      */
     public void setEmail(String email) {
         this.email = email;
@@ -26,7 +28,8 @@ public class User {
 
     /**
      * get username of an user
-     * @return username
+     *
+     * @return username username
      */
     public String getUsername() {
         return username;
@@ -34,6 +37,7 @@ public class User {
 
     /**
      * set username
+     *
      * @param username
      */
     public void setUsername(String username) {
@@ -42,6 +46,7 @@ public class User {
 
     /**
      * get password of user
+     *
      * @return password
      */
     public String getPassword() {
@@ -50,7 +55,8 @@ public class User {
 
     /**
      * set password for user
-     * @param password
+     *
+     * @param password password
      */
     public void setPassword(String password) {
         this.password = password;
