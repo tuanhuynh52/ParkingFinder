@@ -14,8 +14,8 @@
     android:weightSum="1">
 
     <EditText
-        android:layout_width="353dp"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:inputType="textPostalAddress"
         android:ems="10"
         android:id="@+id/search_EditText"
@@ -27,16 +27,33 @@
         android:hint="Address "
         android:textSize="20dp" />
 
-    <Button
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SEARCH"
-        android:id="@+id/search_button"
-        android:layout_below="@+id/search_EditText"
-        android:layout_alignRight="@+id/search_EditText"
-        android:layout_alignEnd="@+id/search_EditText"
-        android:textSize="15dp"
-        android:layout_gravity="right" />
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SEARCH"
+            android:id="@+id/search_button"
+            android:layout_below="@+id/search_EditText"
+            android:layout_alignRight="@+id/search_EditText"
+            android:layout_alignEnd="@+id/search_EditText"
+            android:textSize="15dp"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SEARCH VENUE"
+            android:id="@+id/search_venue"
+            android:layout_below="@+id/search_EditText"
+            android:layout_alignRight="@+id/search_EditText"
+            android:layout_alignEnd="@+id/search_EditText"
+            android:textSize="15dp"
+            android:layout_gravity="right" />
+
+    </LinearLayout>
 
     <ListView
         android:layout_width="match_parent"
