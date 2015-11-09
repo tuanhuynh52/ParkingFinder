@@ -43,10 +43,4 @@
         android:layout_height="wrap_content"
         android:id="@+id/listView" />
 
-    <TextView
-        android:layout_width="356dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_weight="0.86" />
-
 </LinearLayout>
