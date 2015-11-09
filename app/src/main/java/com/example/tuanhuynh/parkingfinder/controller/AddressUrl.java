@@ -1,8 +1,5 @@
 package com.example.tuanhuynh.parkingfinder.controller;
 
-import android.widget.EditText;
-
-import com.example.tuanhuynh.parkingfinder.R;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.Location;
 
 import java.io.BufferedReader;
