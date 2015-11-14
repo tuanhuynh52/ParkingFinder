@@ -20,6 +20,7 @@ import com.example.tuanhuynh.parkingfinder.R;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.DestinationInfo;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationAddress;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationInfo;
+import com.example.tuanhuynh.parkingfinder.model.UserDatabase.ParkingItemInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +44,7 @@ public class FinderActivity extends AppCompatActivity {
     public ListView mListView;
     public ArrayAdapter<LocationInfo> locationAdapter;
     private int numberOfLocation;
+    private ParkingItemInfo parkingItemInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,6 +193,13 @@ public class FinderActivity extends AppCompatActivity {
                     JSONArray locationArray = parentObj.getJSONArray("parking_listings");
                     for (int i=0; i<locationArray.length(); i++){
                         JSONObject location = locationArray.getJSONObject(i);
+                        //add api url to a list to store a particular parking location information
+                        String api_url = location.getString("api_url");
+                        parkingItemInfo.addUrl(api_url);
+
+                        /*
+                        To add to array list
+                         */
                         String location_name = location.getString("location_name");
                         int distance = location.getInt("distance");
                         String formatPrice = location.getString("price_formatted");
