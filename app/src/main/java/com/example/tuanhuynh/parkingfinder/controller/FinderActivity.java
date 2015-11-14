@@ -1,6 +1,7 @@
 package com.example.tuanhuynh.parkingfinder.controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -17,7 +18,7 @@ import android.widget.Toast;
 
 import com.example.tuanhuynh.parkingfinder.R;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.DestinationInfo;
-import com.example.tuanhuynh.parkingfinder.model.UserDatabase.Location;
+import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationAddress;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationInfo;
 
 import org.json.JSONArray;
@@ -36,7 +37,8 @@ import java.util.List;
 public class FinderActivity extends AppCompatActivity {
 
     private static final String TAG = "FinderActivity";
-    private Button searchButton;
+    private Button searchButton, customSearch;
+    private String address = "";
     public List<LocationInfo> locationList;
     public ListView mListView;
     public ArrayAdapter<LocationInfo> locationAdapter;
@@ -61,7 +63,9 @@ public class FinderActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //pass address to location class
                 EditText search = (EditText) findViewById(R.id.search_EditText);
-                String address = search.getText().toString();
+                address = search.getText().toString();
+                LocationAddress.setAddress(address);
+
                 if(locationList != null){
                     locationList.clear();
                 }
@@ -71,7 +75,6 @@ public class FinderActivity extends AppCompatActivity {
 
                 }
                 else {
-                    Location.setAddress(address);
                 /*
                 * manging connection from the application to networking service
                 * before attempting to fetch url, make sure there is a network connection
@@ -91,6 +94,29 @@ public class FinderActivity extends AppCompatActivity {
                 Retrieve data to listview
                  */
                     showListView();
+
+
+                }
+            }
+        });
+
+        /*
+        Custom search button actions if and only if search button gives null results
+         */
+        customSearch = (Button)findViewById(R.id.customButton);
+        customSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (address.equals("")){
+                    Toast.makeText(FinderActivity.this, "PLease enter your address!",
+                            Toast.LENGTH_LONG).show();
+
+                }else if (LocationAddress.getNumOfLocations() > 0){
+                    Toast.makeText(FinderActivity.this, "This action is only available if no parking locations found!!",
+                            Toast.LENGTH_LONG).show();
+                }else {
+                    Intent newIntent = new Intent(FinderActivity.this, CustomSearchActivity.class);
+                    startActivity(newIntent);
                 }
             }
         });
@@ -102,7 +128,7 @@ public class FinderActivity extends AppCompatActivity {
      */
     private void showListView(){
         mListView = (ListView)findViewById(R.id.listView);
-        locationList = Location.ITEMS;
+        locationList = LocationAddress.ITEMS;
         locationAdapter = new ArrayAdapter<LocationInfo>(FinderActivity.this,
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1, locationList);
@@ -143,7 +169,7 @@ public class FinderActivity extends AppCompatActivity {
             //JSON parser
             try {
                 locationList.clear();
-                Location.ITEMS.clear();
+                LocationAddress.ITEMS.clear();
                 JSONObject parentObj = new JSONObject(result);
                 double lat = parentObj.getDouble("lat");
                 double lng = parentObj.getDouble("lng");
@@ -152,14 +178,14 @@ public class FinderActivity extends AppCompatActivity {
                 DestinationInfo.setLng(lng);
                 //get number of parking locations if null throw a toast
                 numberOfLocation = parentObj.getInt("locations");
-                //passing data of number of locations to Location class
-                Location.setNumOfLocations(numberOfLocation);
-                Log.d(TAG, "number of location: " + Location.getNumOfLocations());
+                //passing data of number of locations to LocationAddress class
+                LocationAddress.setNumOfLocations(numberOfLocation);
+                Log.d(TAG, "number of location: " + LocationAddress.getNumOfLocations());
                 if (numberOfLocation == 0){
                     Toast.makeText(FinderActivity.this, "No Available Parking Spots Here",
                             Toast.LENGTH_LONG).show();
                     locationList.clear();
-                    Location.ITEMS.clear();
+                    LocationAddress.ITEMS.clear();
 
                 } else {
                     JSONArray locationArray = parentObj.getJSONArray("parking_listings");
@@ -171,9 +197,9 @@ public class FinderActivity extends AppCompatActivity {
 
                         LocationInfo locationInfo =
                                 new LocationInfo(location_name, distance, formatPrice);
-                        Location.ITEMS.add(locationInfo);
+                        LocationAddress.ITEMS.add(locationInfo);
                     }
-                    locationList = Location.ITEMS;
+                    locationList = LocationAddress.ITEMS;
                     //sort location by shortest distance
                     Collections.sort(locationList);
                     mListView.setAdapter(locationAdapter);

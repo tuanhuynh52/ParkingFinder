@@ -1,8 +1,6 @@
 package com.example.tuanhuynh.parkingfinder.controller;
 
-import android.util.Log;
-
-import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationAddress;
+import com.example.tuanhuynh.parkingfinder.model.UserDatabase.DestinationInfo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,41 +12,33 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 /**
- * Created by Tuan Huynh on 11/8/2015.
+ * Created by Tuan Huynh on 11/14/2015.
  */
-public class AddressUrl {
-
-    private static String AddressURL() {
-        /*
-        Retrieve data from SearchEditText
-        */
-        String address = LocationAddress.getAddress();
-        String temp = " ";
-        for(int i=0; i <= address.length();i++){
-            if (address.contains(temp)){
-                temp += "+";
-            }
-        }
-        return address;
-    }
-
-    /**
-     * get information of location from url and parse them to getJSON method
-     * @return string of content from url
-     * @throws IOException
+public class LngLatUrl {
+    /*
+    latitude and longtitude of current address
      */
-    public static String getJSON() throws IOException {
+    private static double lat, lng;
+
+    private static final String KEY = "477e53144a5e5caa675d2db2768b7782";
+
+
+    public static String getUrlJSON() throws IOException {
+
+        lat = DestinationInfo.getLat();
+        lng = DestinationInfo.getLng();
+
         URL url;
         HttpURLConnection conn = null;
 
         //my url with key to search a specicfic location
-        String myUrl = "http://api.parkwhiz.com/search/?destination="+ AddressURL() +
-                "&key=477e53144a5e5caa675d2db2768b7782";
-        //String myUrl = "http://api.parkwhiz.com/venue/search/?lat=47.2466381&lng=-122.4388819&key=477e53144a5e5caa675d2db2768b7782";
+
+        String myLatLngUrl = "http://api.parkwhiz.com/venue/search/?lat="+lat+"&lng="+lng+"&key="+KEY;
+
         InputStream is = null;
 
         try {
-            url = new URL(myUrl);
+            url = new URL(myLatLngUrl);
             conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000 /* milliseconds */);
             conn.setConnectTimeout(15000 /* milliseconds */);
@@ -57,12 +47,11 @@ public class AddressUrl {
             // Starts the query
             conn.connect();
             int response = conn.getResponseCode();
-            Log.d("AddressUrl", "response code: "+ response);
             is = conn.getInputStream();
 
             // Convert the InputStream into a string
-            String contentAsString = getStringFromInputStream(is);
-            return contentAsString;
+            String strContent = getStringFromInputStream(is);
+            return strContent;
 
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
@@ -79,6 +68,7 @@ public class AddressUrl {
         }
 
         return null;
+
     }
 
     /**
@@ -110,5 +100,8 @@ public class AddressUrl {
         }
         return sb.toString();
     }
+
+
+
 
 }

@@ -14,7 +14,7 @@ import java.util.List;
  * into location interface which helps me get and set information in a list of available location
  * parkings
  */
-public class Location {
+public class LocationAddress {
     /*
     address field
      */
@@ -37,7 +37,7 @@ public class Location {
      * @param numOfLocations number of locations
      */
     public static void setNumOfLocations(int numOfLocations) {
-        Location.numOfLocations = numOfLocations;
+        LocationAddress.numOfLocations = numOfLocations;
     }
 
     /**
@@ -53,16 +53,12 @@ public class Location {
      * @param address address
      */
     public static void setAddress(String address) {
-        Location.address = address;
+        LocationAddress.address = address;
     }
 
     /**
      * a list of locations stored in arraylist
      */
     public static List<LocationInfo> ITEMS = new ArrayList<>();
-
-    /**
-     * LocationInfo sub class provide information of a specific parking location
-     */
 
 }

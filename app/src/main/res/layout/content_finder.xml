@@ -25,25 +25,37 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:hint="Address "
-        android:textSize="20dp" />
+        android:textSize="15dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SEARCH"
-        android:id="@+id/search_button"
-        android:layout_below="@+id/search_EditText"
-        android:layout_alignRight="@+id/search_EditText"
-        android:layout_alignEnd="@+id/search_EditText"
-        android:textSize="15dp"
-        android:layout_gravity="right" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SEARCH"
+            android:id="@+id/search_button"
+            android:textSize="15dp"
+            android:layout_gravity="start"/>
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Custom Search"
+            android:id="@+id/customButton"
+            android:layout_gravity="end"
+            android:clickable="false" />
+
 
     </LinearLayout>
+
 
     <ListView
         android:layout_width="match_parent"
