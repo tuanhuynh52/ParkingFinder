@@ -15,15 +15,17 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.tuanhuynh.parkingfinder.R;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.DestinationInfo;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.Location;
-import com.example.tuanhuynh.parkingfinder.R;
+import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,10 +36,11 @@ import java.util.List;
 public class FinderActivity extends AppCompatActivity {
 
     private static final String TAG = "FinderActivity";
-    private Button searchButton, searchVenueButton;
-    public List<Location.LocationInfo> locationList;
+    private Button searchButton;
+    public List<LocationInfo> locationList;
     public ListView mListView;
-    public ArrayAdapter<Location.LocationInfo> locationAdapter;
+    public ArrayAdapter<LocationInfo> locationAdapter;
+    private int numberOfLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +62,15 @@ public class FinderActivity extends AppCompatActivity {
                 //pass address to location class
                 EditText search = (EditText) findViewById(R.id.search_EditText);
                 String address = search.getText().toString();
+                if(locationList != null){
+                    locationList.clear();
+                }
                 if (address.equals("")){
                     Toast.makeText(FinderActivity.this, "PLease enter your address!",
                             Toast.LENGTH_LONG).show();
 
-                } else {
+                }
+                else {
                     Location.setAddress(address);
                 /*
                 * manging connection from the application to networking service
@@ -73,7 +80,7 @@ public class FinderActivity extends AppCompatActivity {
                             getSystemService(Context.CONNECTIVITY_SERVICE);
                     NetworkInfo networtInfo = connectivityManager.getActiveNetworkInfo();
                     if (networtInfo != null && networtInfo.isConnected()) {
-                        DownloadWebpageTask task = new DownloadWebpageTask();
+                        GetAddressTask task = new GetAddressTask();
                         task.execute();
                         Log.i(TAG, "connected");
                     } else {
@@ -87,47 +94,25 @@ public class FinderActivity extends AppCompatActivity {
                 }
             }
         });
-        searchVenueButton = (Button)findViewById(R.id.search_venue);
-        searchVenueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //pass address to location class
-                EditText search = (EditText) findViewById(R.id.search_EditText);
-                String address = search.getText().toString();
-                Location.setAddress(address);
-                /*
-                * manging connection from the application to networking service
-                * before attempting to fetch url, make sure there is a network connection
-                */
-                ConnectivityManager connectivityManager = (ConnectivityManager)
-                        getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo networtInfo = connectivityManager.getActiveNetworkInfo();
-                if (networtInfo != null && networtInfo.isConnected()) {
-                    JSONTaskVenue task = new JSONTaskVenue();
-                    task.execute();
-                    Log.i(TAG, "connected");
-                } else {
-                    Log.i(TAG, "not connected");
-                }
 
-                showListView();
-            }
-        });
     }
 
     /**
      * shows list view of available locations
      */
     private void showListView(){
-        mListView = (ListView) findViewById(R.id.listView);
-
+        mListView = (ListView)findViewById(R.id.listView);
         locationList = Location.ITEMS;
-
-        locationAdapter = new ArrayAdapter<Location.LocationInfo>(FinderActivity.this,
+        locationAdapter = new ArrayAdapter<LocationInfo>(FinderActivity.this,
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1, locationList);
-
-        mListView.setAdapter(locationAdapter);
+        if(numberOfLocation> 0){
+            mListView.setAdapter(locationAdapter);
+        } else {
+            mListView.setAdapter(null);
+        }
+        locationList.clear();
+        locationAdapter.clear();
     }
 
     /**
@@ -137,7 +122,7 @@ public class FinderActivity extends AppCompatActivity {
      * an InputStream. Finally, the InputStream is converted into a string, which is
      * displayed in the UI by the AsyncTask's onPostExecute method.
      */
-    private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
+    private class GetAddressTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
 //          params comes from the execute() call: params[0] is the url.
@@ -165,12 +150,11 @@ public class FinderActivity extends AppCompatActivity {
                 Log.d(TAG, "lat is "+ lat+ '\n'+ "long is: "+lng);
                 DestinationInfo.setLat(lat);
                 DestinationInfo.setLng(lng);
-
                 //get number of parking locations if null throw a toast
-                int numberOfLocation = parentObj.getInt("locations");
+                numberOfLocation = parentObj.getInt("locations");
                 //passing data of number of locations to Location class
                 Location.setNumOfLocations(numberOfLocation);
-
+                Log.d(TAG, "number of location: " + Location.getNumOfLocations());
                 if (numberOfLocation == 0){
                     Toast.makeText(FinderActivity.this, "No Available Parking Spots Here",
                             Toast.LENGTH_LONG).show();
@@ -185,10 +169,15 @@ public class FinderActivity extends AppCompatActivity {
                         int distance = location.getInt("distance");
                         String formatPrice = location.getString("price_formatted");
 
-                        Location.ITEMS.add(new Location.LocationInfo(location_name, distance, formatPrice));
+                        LocationInfo locationInfo =
+                                new LocationInfo(location_name, distance, formatPrice);
+                        Location.ITEMS.add(locationInfo);
                     }
                     locationList = Location.ITEMS;
+                    //sort location by shortest distance
+                    Collections.sort(locationList);
                     mListView.setAdapter(locationAdapter);
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

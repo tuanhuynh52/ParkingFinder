@@ -42,6 +42,7 @@ public class AddressUrl {
         //my url with key to search a specicfic location
         String myUrl = "http://api.parkwhiz.com/search/?destination="+ AddressURL() +
                 "&key=477e53144a5e5caa675d2db2768b7782";
+        //String myUrl = "http://api.parkwhiz.com/venue/search/?lat=47.2466381&lng=-122.4388819&key=477e53144a5e5caa675d2db2768b7782";
         InputStream is = null;
 
         try {
