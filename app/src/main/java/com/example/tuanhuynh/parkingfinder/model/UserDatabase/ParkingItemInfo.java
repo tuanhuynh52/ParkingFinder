@@ -8,13 +8,18 @@ import java.util.List;
  */
 public class ParkingItemInfo {
 
-    public List<String> api_url_list;
+    private String locationName;
+    private String address;
+    private String city;
+    private String state;
+    private String zip;
+    private int startTime, endTime, distance, availableSpots, price;
+    private int eTicket; //Boolean (1 or 0) whether the location accepts mobile parking passes
+    private String formatPrice;
 
-    public void addUrl(String url){
-
-        api_url_list = new ArrayList<String>();
-        api_url_list.add(url);
-
+    public ParkingItemInfo(){
+        super();
     }
+
 
 }

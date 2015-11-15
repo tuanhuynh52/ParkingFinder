@@ -30,6 +30,8 @@
         </activity>
         <activity android:name=".controller.CustomSearchActivity" >
         </activity>
+        <activity android:name=".controller.ParkingLocationMenu" >
+        </activity>
     </application>
 
 </manifest>

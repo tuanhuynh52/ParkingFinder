@@ -7,9 +7,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,7 +18,6 @@ import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationInfo;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -74,7 +71,7 @@ public class CustomSearchActivity extends AppCompatActivity {
         protected String doInBackground(String... urls) {
 //          params comes from the execute() call: params[0] is the url.
             try {
-                return LngLatUrl.getUrlJSON();
+                return JSONLngLatUrl.getUrlJSON();
             } catch (IOException e) {
                 return "Unable to retrieve web page. URL may be invalid.";
             }

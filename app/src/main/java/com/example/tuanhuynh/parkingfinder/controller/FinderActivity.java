@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,6 +46,7 @@ public class FinderActivity extends AppCompatActivity {
     public ArrayAdapter<LocationInfo> locationAdapter;
     private int numberOfLocation;
     private ParkingItemInfo parkingItemInfo;
+    private LocationInfo locationInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,10 +73,10 @@ public class FinderActivity extends AppCompatActivity {
                 if(locationList != null){
                     locationList.clear();
                 }
+
                 if (address.equals("")){
                     Toast.makeText(FinderActivity.this, "PLease enter your address!",
                             Toast.LENGTH_LONG).show();
-
                 }
                 else {
                 /*
@@ -96,7 +98,18 @@ public class FinderActivity extends AppCompatActivity {
                 Retrieve data to listview
                  */
                     showListView();
-
+                    /*
+                    itemClick listener for each item in the list view
+                     */
+                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(FinderActivity.this, ParkingLocationMenu.class);
+                            //Get value of item that clicked on
+                            String selectedLocation = (String) mListView.getItemAtPosition(position);
+                            startActivity(intent);
+                        }
+                    });
 
                 }
             }
@@ -139,8 +152,6 @@ public class FinderActivity extends AppCompatActivity {
         } else {
             mListView.setAdapter(null);
         }
-        locationList.clear();
-        locationAdapter.clear();
     }
 
     /**
@@ -155,7 +166,7 @@ public class FinderActivity extends AppCompatActivity {
         protected String doInBackground(String... urls) {
 //          params comes from the execute() call: params[0] is the url.
             try {
-                return AddressUrl.getJSON();
+                return JSONAddressUrl.getJSON();
             } catch (IOException e) {
                 return "Unable to retrieve web page. URL may be invalid.";
             }
@@ -194,19 +205,16 @@ public class FinderActivity extends AppCompatActivity {
                     for (int i=0; i<locationArray.length(); i++){
                         JSONObject location = locationArray.getJSONObject(i);
                         //add api url to a list to store a particular parking location information
-                        String api_url = location.getString("api_url");
-                        parkingItemInfo.addUrl(api_url);
-
-                        /*
-                        To add to array list
-                         */
                         String location_name = location.getString("location_name");
+
+                        //set string api_url to setter setApi_url in LocationInfo class
+                        String api_url = location.getString("api_url");
+                        locationInfo.setApi_url(api_url);
+
                         int distance = location.getInt("distance");
                         String formatPrice = location.getString("price_formatted");
 
-                        LocationInfo locationInfo =
-                                new LocationInfo(location_name, distance, formatPrice);
-                        LocationAddress.ITEMS.add(locationInfo);
+                        LocationAddress.ITEMS.add(new LocationInfo(location_name, distance, formatPrice));
                     }
                     locationList = LocationAddress.ITEMS;
                     //sort location by shortest distance
