@@ -21,7 +21,6 @@ import com.example.tuanhuynh.parkingfinder.R;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.DestinationInfo;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationAddress;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationInfo;
-import com.example.tuanhuynh.parkingfinder.model.UserDatabase.ParkingItemInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,14 +38,12 @@ import java.util.List;
 public class FinderActivity extends AppCompatActivity {
 
     private static final String TAG = "FinderActivity";
-    private Button searchButton, customSearch;
     private String address = "";
     public List<LocationInfo> locationList;
     public ListView mListView;
     public ArrayAdapter<LocationInfo> locationAdapter;
     private int numberOfLocation;
-    private ParkingItemInfo parkingItemInfo;
-    private LocationInfo locationInfo;
+    public DestinationInfo destinationInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +58,7 @@ public class FinderActivity extends AppCompatActivity {
         /*
         retrieve search button actions
          */
-        searchButton = (Button)findViewById(R.id.search_button);
+        Button searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,15 +67,14 @@ public class FinderActivity extends AppCompatActivity {
                 address = search.getText().toString();
                 LocationAddress.setAddress(address);
 
-                if(locationList != null){
+                if (locationList != null) {
                     locationList.clear();
                 }
 
-                if (address.equals("")){
+                if (address.equals("")) {
                     Toast.makeText(FinderActivity.this, "PLease enter your address!",
                             Toast.LENGTH_LONG).show();
-                }
-                else {
+                } else {
                 /*
                 * manging connection from the application to networking service
                 * before attempting to fetch url, make sure there is a network connection
@@ -118,18 +114,18 @@ public class FinderActivity extends AppCompatActivity {
         /*
         Custom search button actions if and only if search button gives null results
          */
-        customSearch = (Button)findViewById(R.id.customButton);
+        Button customSearch = (Button) findViewById(R.id.customButton);
         customSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (address.equals("")){
+                if (address.equals("")) {
                     Toast.makeText(FinderActivity.this, "PLease enter your address!",
                             Toast.LENGTH_LONG).show();
 
-                }else if (LocationAddress.getNumOfLocations() > 0){
+                } else if (LocationAddress.getNumOfLocations() > 0) {
                     Toast.makeText(FinderActivity.this, "This action is only available if no parking locations found!!",
                             Toast.LENGTH_LONG).show();
-                }else {
+                } else {
                     Intent newIntent = new Intent(FinderActivity.this, CustomSearchActivity.class);
                     startActivity(newIntent);
                 }
@@ -209,7 +205,7 @@ public class FinderActivity extends AppCompatActivity {
 
                         //set string api_url to setter setApi_url in LocationInfo class
                         String api_url = location.getString("api_url");
-                        locationInfo.setApi_url(api_url);
+                        destinationInfo.setApi_url(api_url);
 
                         int distance = location.getInt("distance");
                         String formatPrice = location.getString("price_formatted");

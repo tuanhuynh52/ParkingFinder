@@ -11,18 +11,6 @@ public class LocationInfo implements Comparable<LocationInfo> {
     public int distance;
     public String price = "unknown";
 
-    //URL to retrieve more info about this location via the JSON API
-    public String api_url;
-
-    public String getApi_url() {
-        return api_url;
-    }
-
-    public void setApi_url(String api_url) {
-        this.api_url = api_url;
-    }
-
-
     /**
      * Constructor of LocationInfo
      *
