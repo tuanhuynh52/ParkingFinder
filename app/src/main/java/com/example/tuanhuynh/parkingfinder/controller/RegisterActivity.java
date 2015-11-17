@@ -3,6 +3,7 @@ package com.example.tuanhuynh.parkingfinder.controller;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
         //retrieving Edit texts
         uName = (EditText)findViewById(R.id.uNameToSignup_editText);
         Email = (EditText)findViewById(R.id.email_editText);
@@ -64,6 +66,10 @@ public class RegisterActivity extends AppCompatActivity {
                 //Passqword input must include at least 4 characters
                 if (password.length()<3){
                     Toast.makeText(RegisterActivity.this, "Password must be at least 4 characters",
+                            Toast.LENGTH_LONG).show();
+                }//check if email is valid
+                else if (!databaseHelper.isEmailValid(emailStr)){
+                    Toast.makeText(RegisterActivity.this, "Please enter valid email address",
                             Toast.LENGTH_LONG).show();
                 }
                 //if input confirm password is different from inserted password

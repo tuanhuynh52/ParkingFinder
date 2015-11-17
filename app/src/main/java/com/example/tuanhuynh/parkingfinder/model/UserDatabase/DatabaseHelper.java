@@ -5,6 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Patterns;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Tuan Huynh on 10/31/2015.
@@ -157,5 +161,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             while (cursor.moveToNext());
         }
         return email;
+    }
+
+    /**
+     * Check if validate email
+     * @param email email address
+     * @return boolean true or false
+     */
+    public boolean isEmailValid(String email){
+
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }

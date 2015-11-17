@@ -40,7 +40,7 @@ public class CustomSearchActivity extends AppCompatActivity {
 
         storedAddress = LocationAddress.getAddress();
         addressTV = (TextView)findViewById(R.id.addressCustom);
-        addressTV.setText(storedAddress);
+        addressTV.setText("Destination searched: " +'\n'+ storedAddress);
 
         if(locationList != null){
             locationList.clear();

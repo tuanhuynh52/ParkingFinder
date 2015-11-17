@@ -21,6 +21,7 @@ import com.example.tuanhuynh.parkingfinder.R;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.DestinationInfo;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationAddress;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationInfo;
+import com.example.tuanhuynh.parkingfinder.model.UserDatabase.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +45,7 @@ public class FinderActivity extends AppCompatActivity {
     public ArrayAdapter<LocationInfo> locationAdapter;
     private int numberOfLocation;
     public DestinationInfo destinationInfo;
+    public User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class FinderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_finder);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Parking Finder");
 
         Log.i(TAG, "On create called");
 
@@ -101,8 +104,6 @@ public class FinderActivity extends AppCompatActivity {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Intent intent = new Intent(FinderActivity.this, ParkingLocationMenu.class);
-                            //Get value of item that clicked on
-                            String selectedLocation = (String) mListView.getItemAtPosition(position);
                             startActivity(intent);
                         }
                     });
@@ -200,13 +201,9 @@ public class FinderActivity extends AppCompatActivity {
                     JSONArray locationArray = parentObj.getJSONArray("parking_listings");
                     for (int i=0; i<locationArray.length(); i++){
                         JSONObject location = locationArray.getJSONObject(i);
+
                         //add api url to a list to store a particular parking location information
                         String location_name = location.getString("location_name");
-
-                        //set string api_url to setter setApi_url in LocationInfo class
-                        String api_url = location.getString("api_url");
-                        destinationInfo.setApi_url(api_url);
-
                         int distance = location.getInt("distance");
                         String formatPrice = location.getString("price_formatted");
 
