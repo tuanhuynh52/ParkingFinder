@@ -11,6 +11,17 @@ public class LocationInfo implements Comparable<LocationInfo> {
     public int distance;
     public String price = "unknown";
 
+    public String getUrl_api() {
+        return url_api;
+    }
+
+    public void setUrl_api(String url_api) {
+        this.url_api = url_api;
+    }
+
+    //information for specific location
+    public String url_api;
+
     /**
      * Constructor of LocationInfo
      *
@@ -18,10 +29,11 @@ public class LocationInfo implements Comparable<LocationInfo> {
      * @param distance distance
      * @param price price
      */
-    public LocationInfo(String locationName, int distance, String price) {
+    public LocationInfo(String locationName, int distance, String price, String url_api) {
         this.location_name = locationName;
         this.distance = distance;
         this.price = price;
+        this.url_api = url_api;
     }
 
     /***

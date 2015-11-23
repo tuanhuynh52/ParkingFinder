@@ -8,15 +8,11 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.tuanhuynh.parkingfinder.R;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationAddress;
-import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationInfo;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,74 +24,53 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.List;
 
-public class CustomSearchActivity extends AppCompatActivity {
+public class ParkingLocation extends AppCompatActivity {
+
+    private TextView locationName, address, startTime, endTime,
+            availableSpot, price, directions, description;
+
+    private static final String TAG = "ParkingLocation";
 
     private static final String KEY = "477e53144a5e5caa675d2db2768b7782";
 
-    private TextView addressTV;
-    private String storedAddress;
-    private static double lat, lng;
-    private static final String TAG = "Customer Search";
-
-    private List<LocationInfo> locationList;
-    private ListView mListView;
-    private ArrayAdapter<LocationInfo> locationAdapter;
+    private String url_api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_custom_search);
+        setContentView(R.layout.activity_parking_location_menu);
 
-        Bundle b = getIntent().getExtras();
-        lat = b.getDouble("key_lat");
-        lng = b.getDouble("key_lng");
-
-        storedAddress = LocationAddress.getAddress();
-        addressTV = (TextView)findViewById(R.id.addressCustom);
-        addressTV.setText("Destination searched: " +'\n'+ storedAddress);
-
-        if(locationList != null){
-            locationList.clear();
-        }
+        Intent intent = getIntent();
+        url_api = intent.getStringExtra("key_api_url");
 
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networtInfo = connectivityManager.getActiveNetworkInfo();
         if (networtInfo != null && networtInfo.isConnected()) {
-            GetLngLatTask task = new GetLngLatTask();
+            GetUrlApiTask task = new GetUrlApiTask();
             task.execute();
             Log.i(TAG, "connected");
         } else {
             Log.i(TAG, "not connected");
         }
 
-        mListView = (ListView)findViewById(R.id.customListView);
-        locationList = LocationAddress.ITEMS;
-        locationAdapter = new ArrayAdapter<LocationInfo>(CustomSearchActivity.this,
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1, locationList);
-        mListView.setAdapter(locationAdapter);
-
     }
 
-
-    public static String getUrlJSON() throws IOException {
-
+    public String getUrlApi() throws IOException {
 
         URL url;
         HttpURLConnection conn = null;
 
         //my url with key to search a specicfic location
 
-        String myLatLngUrl = "http://api.parkwhiz.com/venue/search/?lat="+lat+"&lng="+lng+"&key="+KEY;
-        Log.d("JSONLatLng", myLatLngUrl);
+        String myApiUrl = url_api + "&key="+KEY;
+        Log.d(TAG, myApiUrl);
+
         InputStream is = null;
 
         try {
-            url = new URL(myLatLngUrl);
+            url = new URL(myApiUrl);
             conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000 /* milliseconds */);
             conn.setConnectTimeout(15000 /* milliseconds */);
@@ -158,13 +133,12 @@ public class CustomSearchActivity extends AppCompatActivity {
         return sb.toString();
     }
 
-    private class GetLngLatTask extends AsyncTask<String, Void, String> {
+    private class GetUrlApiTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
 //          params comes from the execute() call: params[0] is the url.
             try {
-                Log.d(TAG, getUrlJSON());
-                return getUrlJSON();
+                return getUrlApi();
             } catch (IOException e) {
                 return "Unable to retrieve web page. URL may be invalid.";
             }
@@ -173,30 +147,26 @@ public class CustomSearchActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String urlResult) {
             super.onPostExecute(urlResult);
-
-            //lat and long URL JSON Parser
+            //JSON parser
+            Log.d(TAG, urlResult);
             try{
-                locationList.clear();
-                LocationAddress.ITEMS.clear();
+                JSONObject jsonObject = new JSONObject(urlResult);
+                String name = jsonObject.getString("location_name");
+                locationName = (TextView)findViewById(R.id.locationNameTV);
+                locationName.setText(name);
 
-                JSONArray locationArray = new JSONArray(urlResult);
-                for(int i=0; i<locationArray.length();i++){
-                    JSONObject locationObject = locationArray.getJSONObject(i);
-                    String locationName = locationObject.getString("name");
-                    Log.d(TAG, locationName);
-                    int distance = locationObject.getInt("distance");
-                    String price = "Not Available";
+                String l_address = jsonObject.getString("address");
+                String city = jsonObject.getString("city");
+                String state = jsonObject.getString("state");
+                String zip = jsonObject.getString("zip");
+                address = (TextView)findViewById(R.id.addressTV);
+                address.setText(l_address+" "+ city +" "+ state +" "+ zip);
 
-                    LocationAddress.ITEMS.add(new LocationInfo(locationName, distance, price, null));
-                }
-                locationList = LocationAddress.ITEMS;
-                Collections.sort(locationList);
-                mListView.setAdapter(locationAdapter);
-
-            } catch (JSONException je){
-                je.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
         }
     }
+
 }

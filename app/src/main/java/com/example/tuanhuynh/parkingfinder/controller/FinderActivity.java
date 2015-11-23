@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.tuanhuynh.parkingfinder.R;
-import com.example.tuanhuynh.parkingfinder.model.UserDatabase.DestinationInfo;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationAddress;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationInfo;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.User;
@@ -44,7 +43,9 @@ public class FinderActivity extends AppCompatActivity {
     public ListView mListView;
     public ArrayAdapter<LocationInfo> locationAdapter;
     private int numberOfLocation;
-    public DestinationInfo destinationInfo;
+    public LocationAddress locationAddress;
+    public String api_url;
+    public double lat, lng;
     public User user;
 
     @Override
@@ -103,7 +104,9 @@ public class FinderActivity extends AppCompatActivity {
                     mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent(FinderActivity.this, ParkingLocationMenu.class);
+                            Intent intent = new Intent(FinderActivity.this, ParkingLocation.class);
+                            api_url = locationList.get(position).getUrl_api();
+                            intent.putExtra("key_api_url", api_url);
                             startActivity(intent);
                         }
                     });
@@ -126,8 +129,12 @@ public class FinderActivity extends AppCompatActivity {
                 } else if (LocationAddress.getNumOfLocations() > 0) {
                     Toast.makeText(FinderActivity.this, "This action is only available if no parking locations found!!",
                             Toast.LENGTH_LONG).show();
-                } else {
+                } else { //open custom search activity
                     Intent newIntent = new Intent(FinderActivity.this, CustomSearchActivity.class);
+                    Bundle b = new Bundle();
+                    b.putDouble("key_lat", lat);
+                    b.putDouble("key_lng", lng);
+                    newIntent.putExtras(b);
                     startActivity(newIntent);
                 }
             }
@@ -176,16 +183,16 @@ public class FinderActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+
+            locationAddress = new LocationAddress();
             //JSON parser
             try {
                 locationList.clear();
                 LocationAddress.ITEMS.clear();
                 JSONObject parentObj = new JSONObject(result);
-                double lat = parentObj.getDouble("lat");
-                double lng = parentObj.getDouble("lng");
-                Log.d(TAG, "lat is "+ lat+ '\n'+ "long is: "+lng);
-                DestinationInfo.setLat(lat);
-                DestinationInfo.setLng(lng);
+                lat = parentObj.getDouble("lat");
+                lng = parentObj.getDouble("lng");
+                Log.d(TAG, "lat is " + lat + '\n' + "long is: " + lng);
                 //get number of parking locations if null throw a toast
                 numberOfLocation = parentObj.getInt("locations");
                 //passing data of number of locations to LocationAddress class
@@ -201,13 +208,13 @@ public class FinderActivity extends AppCompatActivity {
                     JSONArray locationArray = parentObj.getJSONArray("parking_listings");
                     for (int i=0; i<locationArray.length(); i++){
                         JSONObject location = locationArray.getJSONObject(i);
-
+                        api_url = location.getString("api_url");
                         //add api url to a list to store a particular parking location information
                         String location_name = location.getString("location_name");
                         int distance = location.getInt("distance");
                         String formatPrice = location.getString("price_formatted");
 
-                        LocationAddress.ITEMS.add(new LocationInfo(location_name, distance, formatPrice));
+                        LocationAddress.ITEMS.add(new LocationInfo(location_name, distance, formatPrice, api_url));
                     }
                     locationList = LocationAddress.ITEMS;
                     //sort location by shortest distance
