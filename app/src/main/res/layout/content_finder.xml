@@ -12,50 +12,37 @@
     tools:showIn="@layout/activity_finder"
     tools:context="com.example.tuanhuynh.parkingfinder.controller.FinderActivity"
     android:weightSum="1">
-
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPostalAddress"
-        android:ems="10"
-        android:id="@+id/search_EditText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:hint="Address "
-        android:textSize="15dp" />
+        android:orientation="horizontal"
+        android:weightSum="1">
+        <EditText
+            android:layout_width="285dp"
+            android:layout_height="match_parent"
+            android:inputType="textPostalAddress"
+            android:ems="10"
+            android:id="@+id/search_EditText"
+            android:hint="Address "
+            android:textSize="15dp" />
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="SEARCH"
+            android:layout_height="match_parent"
             android:id="@+id/search_button"
-            android:textSize="15dp"
-            android:layout_gravity="start"/>
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView" />
-
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Custom Search"
-            android:id="@+id/customButton"
-            android:layout_gravity="end"
-            android:clickable="false" />
-
+            android:background="@drawable/abc_ic_search_api_mtrl_alpha" />
 
     </LinearLayout>
 
+
+    <Button
+        android:visibility="gone"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Custom Search"
+        android:id="@+id/customButton"
+        android:clickable="false" />
 
     <ListView
         android:layout_width="match_parent"

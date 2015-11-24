@@ -2,6 +2,7 @@ package com.example.tuanhuynh.parkingfinder.controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -9,6 +10,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -46,7 +50,6 @@ public class FinderActivity extends AppCompatActivity {
     public LocationAddress locationAddress;
     public String api_url;
     public double lat, lng;
-    public User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +57,17 @@ public class FinderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_finder);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Parking Finder");
+        Intent intent = getIntent();
+        String uName = intent.getStringExtra("Username");
+        String welcomeString = "Welcome, " + uName;
+        getSupportActionBar().setTitle(welcomeString);
 
         Log.i(TAG, "On create called");
+
+        View b = findViewById(R.id.customButton);
+        b.setVisibility(View.GONE);
+
+        EditText searchEditText = (EditText) findViewById(R.id.search_EditText);
 
 
         /*
@@ -70,7 +81,6 @@ public class FinderActivity extends AppCompatActivity {
                 EditText search = (EditText) findViewById(R.id.search_EditText);
                 address = search.getText().toString();
                 LocationAddress.setAddress(address);
-
                 if (locationList != null) {
                     locationList.clear();
                 }
@@ -89,6 +99,8 @@ public class FinderActivity extends AppCompatActivity {
                     if (networtInfo != null && networtInfo.isConnected()) {
                         GetAddressTask task = new GetAddressTask();
                         task.execute();
+                        View b = findViewById(R.id.customButton);
+                        b.setVisibility(View.GONE);
                         Log.i(TAG, "connected");
                     } else {
                         Log.i(TAG, "not connected");
@@ -142,6 +154,27 @@ public class FinderActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.action_logout) {
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     /**
      * shows list view of available locations
      */
@@ -192,15 +225,18 @@ public class FinderActivity extends AppCompatActivity {
                 JSONObject parentObj = new JSONObject(result);
                 lat = parentObj.getDouble("lat");
                 lng = parentObj.getDouble("lng");
-                Log.d(TAG, "lat is " + lat + '\n' + "long is: " + lng);
+                //Log.d(TAG, "lat is " + lat + '\n' + "long is: " + lng);
                 //get number of parking locations if null throw a toast
                 numberOfLocation = parentObj.getInt("locations");
                 //passing data of number of locations to LocationAddress class
                 LocationAddress.setNumOfLocations(numberOfLocation);
-                Log.d(TAG, "number of location: " + LocationAddress.getNumOfLocations());
+                //Log.d(TAG, "number of location: " + LocationAddress.getNumOfLocations());
                 if (numberOfLocation == 0){
-                    Toast.makeText(FinderActivity.this, "No Available Parking Spots Here",
+                    Toast.makeText(FinderActivity.this, "No Available Parking Spots Here" + "\n" +
+                            "Please press custom search button",
                             Toast.LENGTH_LONG).show();
+                    Button customSearch = (Button) findViewById(R.id.customButton);
+                    customSearch.setVisibility(View.VISIBLE);
                     locationList.clear();
                     LocationAddress.ITEMS.clear();
 

@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,13 +39,15 @@ public class CustomSearchActivity extends AppCompatActivity {
 
     private TextView addressTV;
     private String storedAddress;
+    private int distance;
     private static double lat, lng;
     private static final String TAG = "Customer Search";
 
     private List<LocationInfo> locationList;
     private ListView mListView;
     private ArrayAdapter<LocationInfo> locationAdapter;
-
+    //location name, address,
+    private String locationName, addressToShow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +82,23 @@ public class CustomSearchActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1, locationList);
         mListView.setAdapter(locationAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent newIntent = new Intent(CustomSearchActivity.this, CustomParkingLocation.class);
+                Bundle b = new Bundle();
+                locationName = locationList.get(position).getLocation_name();
+                addressToShow = locationList.get(position).getAddressToShow();
+                distance = locationList.get(position).distance;
+
+                b.putString("name_key", locationName);
+                b.putString("address_key", addressToShow);
+                b.putInt("distance_key", distance);
+                newIntent.putExtras(b);
+                startActivity(newIntent);
+            }
+        });
 
     }
 
@@ -163,7 +184,6 @@ public class CustomSearchActivity extends AppCompatActivity {
         protected String doInBackground(String... urls) {
 //          params comes from the execute() call: params[0] is the url.
             try {
-                Log.d(TAG, getUrlJSON());
                 return getUrlJSON();
             } catch (IOException e) {
                 return "Unable to retrieve web page. URL may be invalid.";
@@ -182,12 +202,16 @@ public class CustomSearchActivity extends AppCompatActivity {
                 JSONArray locationArray = new JSONArray(urlResult);
                 for(int i=0; i<locationArray.length();i++){
                     JSONObject locationObject = locationArray.getJSONObject(i);
-                    String locationName = locationObject.getString("name");
-                    Log.d(TAG, locationName);
-                    int distance = locationObject.getInt("distance");
+                    locationName = locationObject.getString("name");
+                    distance = locationObject.getInt("distance");
                     String price = "Not Available";
-
-                    LocationAddress.ITEMS.add(new LocationInfo(locationName, distance, price, null));
+                    //get additional info for custom parking location
+                    String address = locationObject.getString("address");
+                    String city = locationObject.getString("city");
+                    String state = locationObject.getString("state");
+                    String zip = locationObject.getString("zip");
+                    addressToShow = address + ", " + city + ", " + state + " " + zip;
+                    LocationAddress.ITEMS.add(new LocationInfo(locationName, addressToShow, distance));
                 }
                 locationList = LocationAddress.ITEMS;
                 Collections.sort(locationList);

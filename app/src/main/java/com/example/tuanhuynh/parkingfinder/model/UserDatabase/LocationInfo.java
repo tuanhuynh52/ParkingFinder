@@ -10,6 +10,14 @@ public class LocationInfo implements Comparable<LocationInfo> {
     //distance in feet
     public int distance;
     public String price = "unknown";
+    //information for specific location
+    public String url_api;
+
+    public String getAddressToShow() {
+        return addressToShow;
+    }
+
+    public String addressToShow;
 
     public String getUrl_api() {
         return url_api;
@@ -19,9 +27,9 @@ public class LocationInfo implements Comparable<LocationInfo> {
         this.url_api = url_api;
     }
 
-    //information for specific location
-    public String url_api;
-
+    public String getLocation_name() {
+        return location_name;
+    }
     /**
      * Constructor of LocationInfo
      *
@@ -35,6 +43,21 @@ public class LocationInfo implements Comparable<LocationInfo> {
         this.price = price;
         this.url_api = url_api;
     }
+
+    /**
+     * create a multiple constructor of locaiton info to pass data to customer parking location
+     * correctly for each item when clicked.
+     *
+     * @param locationName location name
+     * @param address full address
+     * @param distance distance from searched location to destination
+     */
+    public LocationInfo(String locationName, String address, int distance) {
+        this.location_name = locationName;
+        this.distance = distance;
+        this.addressToShow = address;
+    }
+
 
     /***
      * Display string of location name, distance, and price in a item of list view
