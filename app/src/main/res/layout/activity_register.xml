@@ -73,7 +73,7 @@
         android:layout_weight="0.03" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="REGISTER"
         android:id="@+id/reg_Button"
@@ -82,6 +82,7 @@
         android:layout_below="@+id/pwd_editText"
         android:layout_centerHorizontal="true"
         android:textAlignment="center"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:background="#a0b5ce" />
 
 </LinearLayout>

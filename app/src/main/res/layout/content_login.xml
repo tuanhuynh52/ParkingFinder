@@ -44,7 +44,7 @@
         android:textColorHighlight="#ffffff" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="LOG IN"
         android:id="@+id/loginButton"
@@ -52,10 +52,11 @@
         android:textSize="30dp"
         android:layout_below="@+id/pwdToLogin_editText"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:background="#7781d7" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="SIGN UP "
         android:id="@+id/signupButton"
