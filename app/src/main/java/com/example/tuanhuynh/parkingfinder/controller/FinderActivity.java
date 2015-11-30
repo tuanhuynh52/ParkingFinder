@@ -46,7 +46,7 @@ public class FinderActivity extends AppCompatActivity {
     public ArrayAdapter<LocationInfo> locationAdapter;
     private int numberOfLocation;
     public LocationAddress locationAddress;
-    public String api_url;
+    public String api_url, uName;
     public double lat, lng;
 
     SharedPreferences mSharePreferences;
@@ -58,7 +58,7 @@ public class FinderActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Intent intent = getIntent();
-        String uName = intent.getStringExtra("Username");
+        uName = intent.getStringExtra("Username");
         String welcomeString = "Welcome, " + uName;
         getSupportActionBar().setTitle(welcomeString);
 
@@ -117,6 +117,7 @@ public class FinderActivity extends AppCompatActivity {
                             Intent intent = new Intent(FinderActivity.this, ParkingLocation.class);
                             api_url = locationList.get(position).getUrl_api();
                             intent.putExtra("key_api_url", api_url);
+                            intent.putExtra("username", uName);
                             startActivity(intent);
                         }
                     });

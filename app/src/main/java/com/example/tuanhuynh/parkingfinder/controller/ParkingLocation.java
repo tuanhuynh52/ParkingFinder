@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tuanhuynh.parkingfinder.R;
 import com.example.tuanhuynh.parkingfinder.model.DestinationDatabase.MySavedParkingLocation;
@@ -40,17 +41,21 @@ public class ParkingLocation extends AppCompatActivity {
 
     private static final String KEY = "477e53144a5e5caa675d2db2768b7782";
 
-    private String url_api;
+    private String name, l_address, p_type, p_description, price_formatted, url_api;
 
     public ParkingLocationDB mParkingLocationDB;
 
     private MySavedParkingLocation mySavedParkingLocation;
+
+    private String mySavedUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking_location_menu);
         setTitle("Parking Destination");
+        mySavedParkingLocation = new MySavedParkingLocation(name, price_formatted);
+        mParkingLocationDB = new ParkingLocationDB(this);
 
         locationName = (TextView)findViewById(R.id.locationNameTV);
         address = (TextView)findViewById(R.id.addressTV);
@@ -68,6 +73,7 @@ public class ParkingLocation extends AppCompatActivity {
 
         Intent intent = getIntent();
         url_api = intent.getStringExtra("key_api_url");
+        mySavedUsername = intent.getStringExtra("username");
 
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -97,11 +103,22 @@ public class ParkingLocation extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        mySavedParkingLocation = new MySavedParkingLocation();
+        mySavedParkingLocation = new MySavedParkingLocation(name, price_formatted);
 
         switch (id){
             case R.id.action_add:
                 //add details of location into MyPlaceDatabase
+                if(!mParkingLocationDB.isDataExisted(mySavedUsername, name)){
+                    mParkingLocationDB.addData(mySavedUsername, name, l_address,
+                            p_type, price_formatted, p_description);
+                    Toast.makeText(ParkingLocation.this, "Added to "+mySavedUsername,
+                            Toast.LENGTH_SHORT).show();
+                    return true;
+                }else {
+                    Toast.makeText(ParkingLocation.this, "This location is already saved",
+                            Toast.LENGTH_SHORT).show();
+                }
+                mParkingLocationDB.closeDB();
 
                 return true;
 
@@ -207,25 +224,29 @@ public class ParkingLocation extends AppCompatActivity {
             //Log.d(TAG, urlResult);
             try{
                 JSONObject jsonObject = new JSONObject(urlResult);
-                String name = jsonObject.getString("location_name");
+                name = jsonObject.getString("location_name");
                 locationName.setText(name);
+                mySavedParkingLocation.setLocation_name(name);
 
-                String l_address = jsonObject.getString("address");
+                l_address = jsonObject.getString("address");
                 String city = jsonObject.getString("city");
                 String state = jsonObject.getString("state");
                 String zip = jsonObject.getString("zip");
                 address.setText(l_address + " " + city + ", " + state + " " + zip);
+                mySavedParkingLocation.setAddress(l_address);
 
-                String p_type = jsonObject.getString("type");
+                p_type = jsonObject.getString("type");
                 type.setText(p_type);
+                mySavedParkingLocation.setType(p_type);
 
                 String p_directions = jsonObject.getString("directions");
                 String str = "<br />";
                 p_directions = p_directions.replaceAll(str, "");
                 directions.setText(p_directions);
 
-                String p_description = jsonObject.getString("description");
+                p_description = jsonObject.getString("description");
                 description.setText(p_description);
+                mySavedParkingLocation.setDescription(p_description);
 
                 JSONArray jsonArray = jsonObject.getJSONArray("listings");
                 for (int i=0; i<jsonArray.length();i++){
@@ -233,8 +254,9 @@ public class ParkingLocation extends AppCompatActivity {
                     int avaiSpot = listObject.getInt("available_spots");
                     availableSpot.setText(String.valueOf(avaiSpot));
 
-                    String price_formatted = listObject.getString("price_formatted");
+                    price_formatted = listObject.getString("price_formatted");
                     price.setText(price_formatted);
+                    mySavedParkingLocation.setPrice(price_formatted);
 
                     String start_time_formatted = listObject.getString("start_utc");
                     startTime.setText(start_time_formatted);

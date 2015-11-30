@@ -49,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
     Commands to create table with necessary columns
      */
-    private static final String TABLE_CREATE = "create table" + TABLE_NAME + "(id integer primary key not null , "
+    private static final String TABLE_CREATE = "create table users" + "(id integer primary key not null , "
             + "Email text not null, username text not null, password text not null);";
     /*
     * SQLite databse

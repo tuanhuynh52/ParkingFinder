@@ -13,24 +13,14 @@ public class MySavedParkingLocation {
 
     private String location_name;
     private String address;
-    private int distance;
     private String type;
-    private String start_time;
-    private String end_time;
-    private int spots;
     private String price;
-    private String directions;
     private String description;
 
     public static List<MySavedParkingLocation> ITEMS = new ArrayList<>();
 
-    public MySavedParkingLocation(){
-        super();
-    }
-
-    public MySavedParkingLocation(String location_name, int distance, String price) {
+    public MySavedParkingLocation(String location_name, String price) {
         this.location_name = location_name;
-        this.distance = distance;
         this.price = price;
     }
 
@@ -51,14 +41,6 @@ public class MySavedParkingLocation {
         this.address = address;
     }
 
-    public int getDistance() {
-        return distance;
-    }
-
-    public void setDistance(int distance) {
-        this.distance = distance;
-    }
-
     public String getType() {
         return type;
     }
@@ -67,29 +49,6 @@ public class MySavedParkingLocation {
         this.type = type;
     }
 
-    public String getStart_time() {
-        return start_time;
-    }
-
-    public void setStart_time(String start_time) {
-        this.start_time = start_time;
-    }
-
-    public String getEnd_time() {
-        return end_time;
-    }
-
-    public void setEnd_time(String end_time) {
-        this.end_time = end_time;
-    }
-
-    public int getSpots() {
-        return spots;
-    }
-
-    public void setSpots(int spots) {
-        this.spots = spots;
-    }
 
     public String getPrice() {
         return price;
@@ -97,14 +56,6 @@ public class MySavedParkingLocation {
 
     public void setPrice(String price) {
         this.price = price;
-    }
-
-    public String getDirections() {
-        return directions;
-    }
-
-    public void setDirections(String directions) {
-        this.directions = directions;
     }
 
     public String getDescription() {
@@ -117,10 +68,7 @@ public class MySavedParkingLocation {
 
     @Override
     public String toString() {
-        return "MySavedParkingLocation{" +
-                "location_name='" + location_name + '\'' +
-                ", distance=" + distance +
-                ", price='" + price + '\'' +
-                '}';
+        return "Location_name: " + location_name +"\n" +
+                "Price: " + price;
     }
 }
