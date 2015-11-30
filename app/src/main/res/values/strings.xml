@@ -3,4 +3,11 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_finder">FinderActivity</string>
     <string name="title_activity_search_address">SearchAddressActivity</string>
+    <string name="action_show">My Places</string>
+    <string name="action_add">Add</string>
+    <string name="action_logout">Logout</string>
+
+    <string name="SHARED_PREFS">com.example.tuanhuynh.parkingfinder.PREFS</string>
+    <string name="LOGGEDIN">loggedin</string>
+
 </resources>

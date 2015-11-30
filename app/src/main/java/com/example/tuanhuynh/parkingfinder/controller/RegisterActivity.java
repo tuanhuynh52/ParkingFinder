@@ -38,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        setTitle("REGISTER");
 
         //retrieving Edit texts
         uName = (EditText)findViewById(R.id.uNameToSignup_editText);
@@ -55,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String password = pwd.getText().toString();
                 String conPwd = confirmPwd.getText().toString();
 
-                String storedEmail = databaseHelper.searchEmail(emailStr);
+                String storedUname = databaseHelper.searchUname(username);
 
                 //All field must be include characters
                 if (username.equals("") || Email.equals("") ||
@@ -79,8 +80,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                 }
                 // check if email has been registered in the system
-                else if (emailStr.equals(storedEmail)){
-                    Toast.makeText(RegisterActivity.this, "Email has been already registered",
+                else if (username.equals(storedUname)){
+                    Toast.makeText(RegisterActivity.this, "Username has been already registered",
                             Toast.LENGTH_LONG).show();
                 }
                 //all requirements met, new user is created

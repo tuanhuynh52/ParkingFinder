@@ -49,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
     Commands to create table with necessary columns
      */
-    private static final String TABLE_CREATE = "create table users (id integer primary key not null , "
+    private static final String TABLE_CREATE = "create table" + TABLE_NAME + "(id integer primary key not null , "
             + "Email text not null, username text not null, password text not null);";
     /*
     * SQLite databse
@@ -142,25 +142,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * make sure email is registered once for an account
      *
-     * @param emailStr string email
+     * @param username string username
      * @return email of registration
      */
-    public String searchEmail(String emailStr) {
+    public String searchUname(String username) {
 
         db = this.getReadableDatabase();
-        String query = "select Email from " + TABLE_NAME;
+        String query = "select username from " + TABLE_NAME;
         Cursor cursor = db.rawQuery(query, null);
-        String email = "";
+        String uName = "";
         if (cursor.moveToFirst()) {
             do {
-                email = cursor.getString(0);
-                if (email.equals(emailStr)) {
+                uName = cursor.getString(0);
+                if (uName.equals(username)) {
                     break;
                 }
             }
             while (cursor.moveToNext());
         }
-        return email;
+        return uName;
     }
 
     /**

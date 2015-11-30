@@ -2,7 +2,7 @@ package com.example.tuanhuynh.parkingfinder.controller;
 
 import android.util.Log;
 
-import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationAddress;
+import com.example.tuanhuynh.parkingfinder.model.LocationAddress;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,6 +14,8 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 /**
+ * this class gets api data from internet and parse those data to FinderActivity to show available
+ * parking locations if found in listview
  * Created by Tuan Huynh on 11/8/2015.
  */
 public class JSONAddressUrl {
@@ -56,8 +58,8 @@ public class JSONAddressUrl {
             conn.setDoInput(true);
             // Starts the query
             conn.connect();
-            int response = conn.getResponseCode();
-            Log.d("JSONAddressUrl", "response code: "+ response);
+            //int response = conn.getResponseCode();
+            //Log.d("JSONAddressUrl", "response code: "+ response);
             is = conn.getInputStream();
 
             // Convert the InputStream into a string
@@ -90,11 +92,11 @@ public class JSONAddressUrl {
 
         BufferedReader br = null;
         StringBuilder sb = new StringBuilder();
-        String str;
+        String line = null;
         try {
             br = new BufferedReader(new InputStreamReader(is));
-            while ((str = br.readLine()) != null){
-                sb.append(str);
+            while ((line = br.readLine()) != null){
+                sb.append(line);
             }
         } catch (IOException e) {
             e.printStackTrace();

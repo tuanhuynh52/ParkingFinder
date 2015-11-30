@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,9 +21,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.tuanhuynh.parkingfinder.R;
-import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationAddress;
-import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationInfo;
-import com.example.tuanhuynh.parkingfinder.model.UserDatabase.User;
+import com.example.tuanhuynh.parkingfinder.model.LocationAddress;
+import com.example.tuanhuynh.parkingfinder.model.LocationInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +49,8 @@ public class FinderActivity extends AppCompatActivity {
     public String api_url;
     public double lat, lng;
 
+    SharedPreferences mSharePreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,13 +62,11 @@ public class FinderActivity extends AppCompatActivity {
         String welcomeString = "Welcome, " + uName;
         getSupportActionBar().setTitle(welcomeString);
 
+
         Log.i(TAG, "On create called");
 
         View b = findViewById(R.id.customButton);
         b.setVisibility(View.GONE);
-
-        EditText searchEditText = (EditText) findViewById(R.id.search_EditText);
-
 
         /*
         retrieve search button actions
@@ -154,6 +152,7 @@ public class FinderActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -169,9 +168,23 @@ public class FinderActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_logout) {
-
+        switch (id) {
+            //log out action
+            case R.id.action_logout:
+                mSharePreferences = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = mSharePreferences.edit();
+                editor.putBoolean(getString(R.string.LOGGEDIN), false);
+                editor.commit();
+                Intent backIntent = new Intent(FinderActivity.this, LoginActivity.class);
+                startActivity(backIntent);
+                return true;
+            //show my saved places view
+            case R.id.action_show:
+                Intent intent = new Intent(FinderActivity.this, MyDestination.class);
+                startActivity(intent);
+                return true;
         }
+        //show list of destination once this button clicked
         return super.onOptionsItemSelected(item);
     }
 
@@ -216,7 +229,7 @@ public class FinderActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-
+            //Log.d(TAG, "result is: "+result);
             locationAddress = new LocationAddress();
             //JSON parser
             try {
@@ -248,8 +261,12 @@ public class FinderActivity extends AppCompatActivity {
                         //add api url to a list to store a particular parking location information
                         String location_name = location.getString("location_name");
                         int distance = location.getInt("distance");
-                        String formatPrice = location.getString("price_formatted");
+                        String formatPrice = "Unknown";
+                        if (location.has("price_formatted")){
+                            formatPrice = location.getString("price_formatted");
+                        }
 
+                        //add 4 of these values into the list of LocationInfo
                         LocationAddress.ITEMS.add(new LocationInfo(location_name, distance, formatPrice, api_url));
                     }
                     locationList = LocationAddress.ITEMS;

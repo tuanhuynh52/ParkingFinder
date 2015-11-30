@@ -15,8 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.tuanhuynh.parkingfinder.R;
-import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationAddress;
-import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationInfo;
+import com.example.tuanhuynh.parkingfinder.model.LocationAddress;
+import com.example.tuanhuynh.parkingfinder.model.LocationInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -204,7 +204,6 @@ public class CustomSearchActivity extends AppCompatActivity {
                     JSONObject locationObject = locationArray.getJSONObject(i);
                     locationName = locationObject.getString("name");
                     distance = locationObject.getInt("distance");
-                    String price = "Not Available";
                     //get additional info for custom parking location
                     String address = locationObject.getString("address");
                     String city = locationObject.getString("city");

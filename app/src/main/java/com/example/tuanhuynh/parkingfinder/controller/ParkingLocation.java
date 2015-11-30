@@ -9,15 +9,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.tuanhuynh.parkingfinder.R;
-import com.example.tuanhuynh.parkingfinder.model.UserDatabase.LocationAddress;
+import com.example.tuanhuynh.parkingfinder.model.DestinationDatabase.MySavedParkingLocation;
+import com.example.tuanhuynh.parkingfinder.model.DestinationDatabase.ParkingLocationDB;
+import com.example.tuanhuynh.parkingfinder.model.UserDatabase.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,10 +42,16 @@ public class ParkingLocation extends AppCompatActivity {
 
     private String url_api;
 
+    public ParkingLocationDB mParkingLocationDB;
+
+    private MySavedParkingLocation mySavedParkingLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking_location_menu);
+        setTitle("Parking Destination");
+
         locationName = (TextView)findViewById(R.id.locationNameTV);
         address = (TextView)findViewById(R.id.addressTV);
         type = (TextView)findViewById(R.id.typeTV);
@@ -50,6 +59,7 @@ public class ParkingLocation extends AppCompatActivity {
         price = (TextView)findViewById(R.id.priceTv);
         startTime = (TextView)findViewById(R.id.startTimeTV);
         endTime = (TextView)findViewById(R.id.endTimeTV);
+
         directions = (TextView)findViewById(R.id.directionTV);
         directions.setMovementMethod(new ScrollingMovementMethod());
 
@@ -72,6 +82,37 @@ public class ParkingLocation extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_parking_location, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        mySavedParkingLocation = new MySavedParkingLocation();
+
+        switch (id){
+            case R.id.action_add:
+                //add details of location into MyPlaceDatabase
+
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
     public String getUrlApi() throws IOException {
 
         URL url;
@@ -80,7 +121,7 @@ public class ParkingLocation extends AppCompatActivity {
         //my url with key to search a specicfic location
 
         String myApiUrl = url_api + "&key="+KEY;
-        //Log.d(TAG, myApiUrl);
+        Log.d(TAG, myApiUrl);
 
         InputStream is = null;
 
@@ -173,7 +214,7 @@ public class ParkingLocation extends AppCompatActivity {
                 String city = jsonObject.getString("city");
                 String state = jsonObject.getString("state");
                 String zip = jsonObject.getString("zip");
-                address.setText(l_address+", "+ city +", "+ state +" "+ zip);
+                address.setText(l_address + " " + city + ", " + state + " " + zip);
 
                 String p_type = jsonObject.getString("type");
                 type.setText(p_type);
@@ -191,10 +232,13 @@ public class ParkingLocation extends AppCompatActivity {
                     JSONObject listObject = jsonArray.getJSONObject(i);
                     int avaiSpot = listObject.getInt("available_spots");
                     availableSpot.setText(String.valueOf(avaiSpot));
+
                     String price_formatted = listObject.getString("price_formatted");
                     price.setText(price_formatted);
+
                     String start_time_formatted = listObject.getString("start_utc");
                     startTime.setText(start_time_formatted);
+
                     String end_time_formatted = listObject.getString("end_utc");
                     endTime.setText(end_time_formatted);
                 }

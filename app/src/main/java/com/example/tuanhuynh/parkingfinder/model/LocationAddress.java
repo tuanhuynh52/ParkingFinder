@@ -1,4 +1,4 @@
-package com.example.tuanhuynh.parkingfinder.model.UserDatabase;
+package com.example.tuanhuynh.parkingfinder.model;
 
 /**
  * since I successfully get information of a specific location, parsing them to

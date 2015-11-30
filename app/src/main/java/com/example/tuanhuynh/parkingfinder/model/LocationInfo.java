@@ -1,4 +1,4 @@
-package com.example.tuanhuynh.parkingfinder.model.UserDatabase;
+package com.example.tuanhuynh.parkingfinder.model;
 
 /**
  * LocationInfo class provides information of a specific parking location show in the listview
