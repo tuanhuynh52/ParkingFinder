@@ -86,10 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
                 //all requirements met, new user is created
                 else {
                     //insert user info into database since account created successfull
-                    User user = new User();
-                    user.setUsername(username);
-                    user.setEmail(emailStr);
-                    user.setPassword(password);
+                    User user = new User(emailStr, username, password);
                     databaseHelper.insert(user);
                     Toast.makeText(RegisterActivity.this, "Account Created Successfully!",
                             Toast.LENGTH_LONG).show();

@@ -31,7 +31,7 @@ public class LocationInfo implements Comparable<LocationInfo> {
         return location_name;
     }
     /**
-     * Constructor of LocationInfo
+     * Constructor of LocationInfo but providing url_api from web service
      *
      * @param locationName location name
      * @param distance distance
@@ -64,8 +64,11 @@ public class LocationInfo implements Comparable<LocationInfo> {
      */
     @Override
     public String toString() {
+        //Convert ft to mile
+
+        String distanceInMile = String.format("%.1f", distance/5280.00);
         return location_name + '\n' +
-                "Distance: " + distance + " ft."
+                "Distance: " + distanceInMile + " mile"
                 + '\n'+ "Price: " + price;
     }
 

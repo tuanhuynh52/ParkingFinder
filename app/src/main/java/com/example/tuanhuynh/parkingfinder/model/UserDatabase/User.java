@@ -6,7 +6,19 @@ package com.example.tuanhuynh.parkingfinder.model.UserDatabase;
  */
 public class User {
 
-    String email, username, password;
+    private String email, username, password;
+
+    /**
+     * Constructor for user
+     * @param email email
+     * @param username username
+     * @param password password
+     */
+    public User(String email, String username, String password) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
 
     /**
      * get email of user

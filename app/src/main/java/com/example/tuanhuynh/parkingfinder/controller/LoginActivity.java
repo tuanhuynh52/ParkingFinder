@@ -21,15 +21,15 @@ public class LoginActivity extends AppCompatActivity {
     /*
      * Database helper field
      */
-    DatabaseHelper databaseHelper = new DatabaseHelper(this);
+    private DatabaseHelper databaseHelper;
     /*
     Edittext username and password
      */
-    EditText uName, pwd;
+    private EditText uName, pwd;
     /*
     Button login and signup
      */
-    Button loginButton, signupButton;
+    private Button loginButton, signupButton;
 
     /**
      * Create activity when register button and log in button clicked
@@ -41,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar)findViewById(R.id.login_toolbar);
         toolbar.setTitle("LOGIN");
+
+        databaseHelper = new DatabaseHelper(this);
 
         uName = (EditText)findViewById(R.id.uNameToLogin_editText);
         pwd = (EditText)findViewById(R.id.pwdToLogin_editText);
