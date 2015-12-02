@@ -42,7 +42,9 @@ public class MyDestination extends AppCompatActivity {
 
         final Intent intent = getIntent();
         username = intent.getStringExtra("username");
-
+        /*
+         *Show listview
+         */
         myList = mParkingLocationDB.getAllDataByUName(username);
         myArrayAdapter = new ArrayAdapter<MySavedParkingLocation>(this,
                 android.R.layout.simple_list_item_1,
@@ -81,4 +83,24 @@ public class MyDestination extends AppCompatActivity {
 
     }
 
+    /**
+     * resume the activity and update the listview
+     */
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+
+        mParkingLocationDB.getReadableDatabase();
+        myArrayAdapter.notifyDataSetChanged();
+        myList = mParkingLocationDB.getAllDataByUName(username);
+        myArrayAdapter = new ArrayAdapter<MySavedParkingLocation>(this,
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1, myList);
+        mySavedListView.setAdapter(myArrayAdapter);
+        if(myList.isEmpty()){
+            Toast.makeText(getApplicationContext(), "EMPTY LIST",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+    }
 }

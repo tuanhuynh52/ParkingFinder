@@ -28,9 +28,6 @@ public class MyLocationDetail extends AppCompatActivity {
     private TextView l_name, l_address, l_type, l_price, l_description;
     private String uName, locationName, address;
 
-    public ArrayAdapter<MySavedParkingLocation> myAdapter;
-    public List<MySavedParkingLocation> myList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,13 +67,6 @@ public class MyLocationDetail extends AppCompatActivity {
                 myDB.deleteLocation(uName, locationName);
                 Toast.makeText(getApplicationContext(), "This location has been deleted",
                         Toast.LENGTH_SHORT).show();
-                myDB.getReadableDatabase();
-                myList = myDB.getAllDataByUName(uName);
-                MyDestination activity = new MyDestination();
-                myAdapter = new ArrayAdapter<MySavedParkingLocation>(activity,
-                        android.R.layout.simple_list_item_1,
-                        android.R.id.text1, myList);
-                myAdapter.notifyDataSetChanged();
                 myDB.closeDB();
                 finish();
             }
