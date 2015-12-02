@@ -27,7 +27,6 @@
             android:name=".controller.FinderActivity"
             android:label="@string/title_activity_finder"
             android:theme="@style/AppTheme.NoActionBar" >
-
         </activity>
         <activity android:name=".controller.CustomSearchActivity" >
         </activity>
@@ -36,6 +35,8 @@
         <activity android:name=".controller.CustomParkingLocation" >
         </activity>
         <activity android:name=".controller.MyDestination" >
+        </activity>
+        <activity android:name=".controller.MyLocationDetail" >
         </activity>
     </application>
 

@@ -1,22 +1,18 @@
 package com.example.tuanhuynh.parkingfinder.controller;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.tuanhuynh.parkingfinder.R;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.DatabaseHelper;
-import com.example.tuanhuynh.parkingfinder.model.UserDatabase.User;
 
 /**
  * LoginActivity class allows user to use their account and password to sign in the app system.
@@ -37,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Create activity when register button and log in button clicked
-     * @param savedInstanceState
+     * @param savedInstanceState saved instance state
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,11 +83,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     *
-     * @param menu
-     * @return
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -101,8 +92,8 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * adding menu of items
-     * @param item
-     * @return boolean
+     * @param item item
+     * @return boolean true / false
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -7,9 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Patterns;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * Created by Tuan Huynh on 10/31/2015.
  * DatabaseHelper class helps store user information when a new one is registered in the system.

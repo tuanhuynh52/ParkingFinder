@@ -1,10 +1,5 @@
 package com.example.tuanhuynh.parkingfinder.model.DestinationDatabase;
 
-import com.example.tuanhuynh.parkingfinder.model.LocationInfo;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * This class holds information of a parking location and store information into a list
  * Created by Tuan Huynh on 11/23/2015.
@@ -17,13 +12,19 @@ public class MySavedParkingLocation {
     private String price;
     private String description;
 
-    public static List<MySavedParkingLocation> ITEMS = new ArrayList<>();
-
-    public MySavedParkingLocation(String location_name, String price) {
-        this.location_name = location_name;
-        this.price = price;
+    /**
+     * saved parking location constructor
+     * @param location_name location name
+     * @param price price
+     */
+    public MySavedParkingLocation(String location_name, String address, String type,
+                                  String price, String description) {
+        this.setLocation_name(location_name);
+        this.setAddress(address);
+        this.setType(type);
+        this.setPrice(price);
+        this.setDescription(description);
     }
-
 
     public String getLocation_name() {
         return location_name;
@@ -66,9 +67,14 @@ public class MySavedParkingLocation {
         this.description = description;
     }
 
+    /**
+     * Show string of this object into listview
+     * @return string
+     */
     @Override
     public String toString() {
-        return "Location_name: " + location_name +"\n" +
+        return "Name: " + location_name +"\n" +
+                "Address: " + address + "\n" +
                 "Price: " + price;
     }
 }

@@ -1,9 +1,8 @@
 package com.example.tuanhuynh.parkingfinder.controller;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     /**
      * Requires new user to fill out information for registration
-     * @param savedInstanceState
+     * @param savedInstanceState saved instance state
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +57,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                 String storedUname = databaseHelper.searchUname(username);
 
-                //All field must be include characters
-                if (username.equals("") || Email.equals("") ||
+                /* All field must be include characters */
+                if (username.equals("") || emailStr.equals("") ||
                         password.equals("") || conPwd.equals("")) {
                     Toast.makeText(RegisterActivity.this, "Please fill out blank",
                             Toast.LENGTH_LONG).show();

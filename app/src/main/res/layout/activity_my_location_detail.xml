@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.tuanhuynh.parkingfinder.controller.MyLocationDetail">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="0.02">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location Name: "
+            android:id="@+id/textView2"
+            android:textColor="#fa0404" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="31dp"
+            android:id="@+id/savedName"
+            android:layout_alignBottom="@+id/textView2"
+            android:layout_toRightOf="@+id/textView2"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textColor="#050505" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="0.02">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address: "
+            android:id="@+id/textView3"
+            android:textColor="#fa0404" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:id="@+id/savedAddress"
+            android:layout_below="@+id/textView2"
+            android:textColor="#050505" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="0.02">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Parking Type: "
+            android:id="@+id/type"
+            android:textColor="#fa0404" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:id="@+id/savedType"
+            android:textColor="#050505" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="0.02">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price: "
+            android:id="@+id/textView6"
+            android:textColor="#fa0404" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:id="@+id/savedPrice"
+            android:textColor="#050505" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description: "
+        android:id="@+id/textView8"
+        android:textColor="#fa0404" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="8"
+        android:scrollbars="vertical"
+        android:id="@+id/savedDescription"
+        android:textColor="#050505"
+        android:layout_weight="0.30" />
+
+    <Button
+        android:layout_width="127dp"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:id="@+id/deleteButton"
+        android:background="#8185df"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>

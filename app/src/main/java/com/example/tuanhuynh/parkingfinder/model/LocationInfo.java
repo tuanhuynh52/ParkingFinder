@@ -58,7 +58,6 @@ public class LocationInfo implements Comparable<LocationInfo> {
         this.addressToShow = address;
     }
 
-
     /***
      * Display string of location name, distance, and price in a item of list view
      * @return string

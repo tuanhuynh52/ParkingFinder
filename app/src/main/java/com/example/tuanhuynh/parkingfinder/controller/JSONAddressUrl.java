@@ -1,7 +1,5 @@
 package com.example.tuanhuynh.parkingfinder.controller;
 
-import android.util.Log;
-
 import com.example.tuanhuynh.parkingfinder.model.LocationAddress;
 
 import java.io.BufferedReader;
