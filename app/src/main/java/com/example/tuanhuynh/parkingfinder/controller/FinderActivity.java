@@ -145,6 +145,7 @@ public class FinderActivity extends AppCompatActivity {
                     Bundle b = new Bundle();
                     b.putDouble("key_lat", lat);
                     b.putDouble("key_lng", lng);
+                    b.putString("username", uName);
                     newIntent.putExtras(b);
                     startActivity(newIntent);
                 }
@@ -182,6 +183,7 @@ public class FinderActivity extends AppCompatActivity {
             //show my saved places view
             case R.id.action_show:
                 Intent intent = new Intent(FinderActivity.this, MyDestination.class);
+                intent.putExtra("username", uName);
                 startActivity(intent);
                 return true;
         }

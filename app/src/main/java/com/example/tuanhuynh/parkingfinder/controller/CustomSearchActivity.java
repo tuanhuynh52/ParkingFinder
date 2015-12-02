@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,8 +33,13 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Custom search for user if regular search is not valid
+ */
 public class CustomSearchActivity extends AppCompatActivity {
-
+    /**
+     * API key
+     */
     private static final String KEY = "477e53144a5e5caa675d2db2768b7782";
 
     private TextView addressTV;
@@ -47,7 +52,8 @@ public class CustomSearchActivity extends AppCompatActivity {
     private ListView mListView;
     private ArrayAdapter<LocationInfo> locationAdapter;
     //location name, address,
-    private String locationName, addressToShow;
+    private String locationName, addressToShow, uName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +62,7 @@ public class CustomSearchActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         lat = b.getDouble("key_lat");
         lng = b.getDouble("key_lng");
+        uName= b.getString("username");
 
         storedAddress = LocationAddress.getAddress();
         addressTV = (TextView)findViewById(R.id.addressCustom);
@@ -64,7 +71,9 @@ public class CustomSearchActivity extends AppCompatActivity {
         if(locationList != null){
             locationList.clear();
         }
-
+        /*
+        Make sure connected to the internet
+         */
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networtInfo = connectivityManager.getActiveNetworkInfo();
@@ -95,6 +104,7 @@ public class CustomSearchActivity extends AppCompatActivity {
                 b.putString("name_key", locationName);
                 b.putString("address_key", addressToShow);
                 b.putInt("distance_key", distance);
+                b.putString("username", uName);
                 newIntent.putExtras(b);
                 startActivity(newIntent);
             }
@@ -102,9 +112,12 @@ public class CustomSearchActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * retrieve string from JSON
+     * @return string
+     * @throws IOException exception
+     */
     public static String getUrlJSON() throws IOException {
-
 
         URL url;
         HttpURLConnection conn = null;
@@ -179,6 +192,9 @@ public class CustomSearchActivity extends AppCompatActivity {
         return sb.toString();
     }
 
+    /**
+     * Retrieve data from the internet using Asynctask by passing string content
+     */
     private class GetLngLatTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
