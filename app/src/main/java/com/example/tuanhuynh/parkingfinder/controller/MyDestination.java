@@ -1,10 +1,8 @@
 package com.example.tuanhuynh.parkingfinder.controller;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,7 +36,7 @@ public class MyDestination extends AppCompatActivity {
 
         mParkingLocationDB = new ParkingLocationDB(MyDestination.this);
 
-        mySavedListView = (ListView)findViewById(R.id.MyPlaceListView);
+        mySavedListView = (ListView) findViewById(R.id.MyPlaceListView);
 
         final Intent intent = getIntent();
         username = intent.getStringExtra("username");
@@ -50,7 +48,7 @@ public class MyDestination extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1, myList);
         mySavedListView.setAdapter(myArrayAdapter);
-        if(myList.isEmpty()){
+        if (myList.isEmpty()) {
             Toast.makeText(getApplicationContext(), "EMPTY LIST",
                     Toast.LENGTH_SHORT).show();
         }
@@ -97,7 +95,7 @@ public class MyDestination extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1, myList);
         mySavedListView.setAdapter(myArrayAdapter);
-        if(myList.isEmpty()){
+        if (myList.isEmpty()) {
             Toast.makeText(getApplicationContext(), "EMPTY LIST",
                     Toast.LENGTH_SHORT).show();
         }

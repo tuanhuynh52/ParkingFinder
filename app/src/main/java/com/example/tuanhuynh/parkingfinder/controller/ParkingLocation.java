@@ -32,7 +32,7 @@ import java.net.URL;
 
 public class ParkingLocation extends AppCompatActivity {
 
-    private TextView locationName, address, type,  startTime, endTime,
+    private TextView locationName, address, type, startTime, endTime,
             availableSpot, price, directions, description;
 
     private static final String TAG = "ParkingLocation";
@@ -53,24 +53,24 @@ public class ParkingLocation extends AppCompatActivity {
         setTitle("Parking Destination");
         mParkingLocationDB = new ParkingLocationDB(this);
 
-        locationName = (TextView)findViewById(R.id.locationNameTV);
-        address = (TextView)findViewById(R.id.addressTV);
-        type = (TextView)findViewById(R.id.typeTV);
-        availableSpot = (TextView)findViewById(R.id.spotTV);
-        price = (TextView)findViewById(R.id.priceTv);
-        startTime = (TextView)findViewById(R.id.startTimeTV);
-        endTime = (TextView)findViewById(R.id.endTimeTV);
+        locationName = (TextView) findViewById(R.id.locationNameTV);
+        address = (TextView) findViewById(R.id.addressTV);
+        type = (TextView) findViewById(R.id.typeTV);
+        availableSpot = (TextView) findViewById(R.id.spotTV);
+        price = (TextView) findViewById(R.id.priceTv);
+        startTime = (TextView) findViewById(R.id.startTimeTV);
+        endTime = (TextView) findViewById(R.id.endTimeTV);
 
-        directions = (TextView)findViewById(R.id.directionTV);
+        directions = (TextView) findViewById(R.id.directionTV);
         directions.setMovementMethod(new ScrollingMovementMethod());
 
-        description = (TextView)findViewById(R.id.descriptionTV);
+        description = (TextView) findViewById(R.id.descriptionTV);
         description.setMovementMethod(new ScrollingMovementMethod());
 
         Intent intent = getIntent();
         url_api = intent.getStringExtra("key_api_url");
         mySavedUsername = intent.getStringExtra("username");
-        Log.d(TAG, "username is "+ mySavedUsername);
+        Log.d(TAG, "username is " + mySavedUsername);
 
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -100,16 +100,16 @@ public class ParkingLocation extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        switch (id){
+        switch (id) {
             case R.id.action_add:
                 //add details of location into MyPlaceDatabase
-                if(!mParkingLocationDB.isDataExisted(mySavedUsername, name)){
+                if (!mParkingLocationDB.isDataExisted(mySavedUsername, name)) {
                     mParkingLocationDB.addData(mySavedUsername, name, fullAddress,
                             p_type, price_formatted, p_description);
-                    Toast.makeText(ParkingLocation.this, "Added to "+mySavedUsername,
+                    Toast.makeText(ParkingLocation.this, "Added to " + mySavedUsername,
                             Toast.LENGTH_SHORT).show();
                     return true;
-                }else {
+                } else {
                     Toast.makeText(ParkingLocation.this, "This location is already saved",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -127,6 +127,7 @@ public class ParkingLocation extends AppCompatActivity {
 
     /**
      * get string api from the internet using url api and my own key
+     *
      * @return string content
      * @throws IOException io exception
      */
@@ -137,7 +138,7 @@ public class ParkingLocation extends AppCompatActivity {
 
         //my url with key to search a specicfic location
 
-        String myApiUrl = url_api + "&key="+KEY;
+        String myApiUrl = url_api + "&key=" + KEY;
         Log.d(TAG, myApiUrl);
 
         InputStream is = null;
@@ -178,6 +179,7 @@ public class ParkingLocation extends AppCompatActivity {
 
     /**
      * Gets string from inputstream
+     *
      * @param is inputStream
      * @return string of inputstream
      */
@@ -188,17 +190,16 @@ public class ParkingLocation extends AppCompatActivity {
         String str;
         try {
             br = new BufferedReader(new InputStreamReader(is));
-            while ((str = br.readLine()) != null){
+            while ((str = br.readLine()) != null) {
                 sb.append(str);
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             if (br != null) {
                 try {
                     br.close();
-                } catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -222,7 +223,7 @@ public class ParkingLocation extends AppCompatActivity {
             super.onPostExecute(urlResult);
             //JSON parser
             //Log.d(TAG, urlResult);
-            try{
+            try {
                 JSONObject jsonObject = new JSONObject(urlResult);
                 name = jsonObject.getString("location_name");
                 locationName.setText(name);
@@ -246,7 +247,7 @@ public class ParkingLocation extends AppCompatActivity {
                 description.setText(p_description);
 
                 JSONArray jsonArray = jsonObject.getJSONArray("listings");
-                for (int i=0; i<jsonArray.length();i++){
+                for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject listObject = jsonArray.getJSONObject(i);
                     int avaiSpot = listObject.getInt("available_spots");
                     availableSpot.setText(String.valueOf(avaiSpot));

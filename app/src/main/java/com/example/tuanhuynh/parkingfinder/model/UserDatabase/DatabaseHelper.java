@@ -162,10 +162,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Check if validate email
+     *
      * @param email email address
      * @return boolean true or false
      */
-    public boolean isEmailValid(String email){
+    public boolean isEmailValid(String email) {
 
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }

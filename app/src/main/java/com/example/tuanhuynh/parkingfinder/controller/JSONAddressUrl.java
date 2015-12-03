@@ -24,8 +24,8 @@ public class JSONAddressUrl {
         */
         String address = LocationAddress.getAddress();
         String temp = " ";
-        for(int i=0; i <= address.length();i++){
-            if (address.contains(temp)){
+        for (int i = 0; i <= address.length(); i++) {
+            if (address.contains(temp)) {
                 temp += "+";
             }
         }
@@ -34,6 +34,7 @@ public class JSONAddressUrl {
 
     /**
      * get information of location from url and parse them to getJSON method
+     *
      * @return string of content from url
      * @throws IOException
      */
@@ -42,7 +43,7 @@ public class JSONAddressUrl {
         HttpURLConnection conn = null;
 
         //my url with key to search a specicfic location
-        String myUrl = "http://api.parkwhiz.com/search/?destination="+ AddressURL() +
+        String myUrl = "http://api.parkwhiz.com/search/?destination=" + AddressURL() +
                 "&key=477e53144a5e5caa675d2db2768b7782";
         //String myUrl = "http://api.parkwhiz.com/venue/search/?lat=47.2466381&lng=-122.4388819&key=477e53144a5e5caa675d2db2768b7782";
         InputStream is = null;
@@ -83,6 +84,7 @@ public class JSONAddressUrl {
 
     /**
      * Gets string from inputstream
+     *
      * @param is inputStream
      * @return string of inputstream
      */
@@ -93,17 +95,16 @@ public class JSONAddressUrl {
         String line = null;
         try {
             br = new BufferedReader(new InputStreamReader(is));
-            while ((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             if (br != null) {
                 try {
                     br.close();
-                } catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }

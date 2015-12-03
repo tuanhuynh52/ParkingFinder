@@ -31,11 +31,11 @@ public class CustomParkingLocation extends AppCompatActivity {
         int distance = b.getInt("distance_key");
         mySavedUsername = b.getString("username");
 
-        TextView name = (TextView)findViewById(R.id.nameTextView);
+        TextView name = (TextView) findViewById(R.id.nameTextView);
         name.setText(locationName);
-        TextView addressTv = (TextView)findViewById(R.id.addressTextView);
+        TextView addressTv = (TextView) findViewById(R.id.addressTextView);
         addressTv.setText(address);
-        TextView distanceTV = (TextView)findViewById(R.id.distanceTextView);
+        TextView distanceTV = (TextView) findViewById(R.id.distanceTextView);
         distanceTV.setText(String.valueOf(distance) + " Ft");
     }
 

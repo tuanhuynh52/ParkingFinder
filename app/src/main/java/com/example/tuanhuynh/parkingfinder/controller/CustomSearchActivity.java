@@ -62,13 +62,13 @@ public class CustomSearchActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         lat = b.getDouble("key_lat");
         lng = b.getDouble("key_lng");
-        uName= b.getString("username");
+        uName = b.getString("username");
 
         storedAddress = LocationAddress.getAddress();
-        addressTV = (TextView)findViewById(R.id.addressCustom);
-        addressTV.setText("Destination searched: " +'\n'+ storedAddress);
+        addressTV = (TextView) findViewById(R.id.addressCustom);
+        addressTV.setText("Destination searched: " + '\n' + storedAddress);
 
-        if(locationList != null){
+        if (locationList != null) {
             locationList.clear();
         }
         /*
@@ -85,7 +85,7 @@ public class CustomSearchActivity extends AppCompatActivity {
             Log.i(TAG, "not connected");
         }
 
-        mListView = (ListView)findViewById(R.id.customListView);
+        mListView = (ListView) findViewById(R.id.customListView);
         locationList = LocationAddress.ITEMS;
         locationAdapter = new ArrayAdapter<LocationInfo>(CustomSearchActivity.this,
                 android.R.layout.simple_list_item_1,
@@ -114,6 +114,7 @@ public class CustomSearchActivity extends AppCompatActivity {
 
     /**
      * retrieve string from JSON
+     *
      * @return string
      * @throws IOException exception
      */
@@ -124,7 +125,7 @@ public class CustomSearchActivity extends AppCompatActivity {
 
         //my url with key to search a specicfic location
 
-        String myLatLngUrl = "http://api.parkwhiz.com/venue/search/?lat="+lat+"&lng="+lng+"&key="+KEY;
+        String myLatLngUrl = "http://api.parkwhiz.com/venue/search/?lat=" + lat + "&lng=" + lng + "&key=" + KEY;
         Log.d("JSONLatLng", myLatLngUrl);
         InputStream is = null;
 
@@ -164,6 +165,7 @@ public class CustomSearchActivity extends AppCompatActivity {
 
     /**
      * Gets string from inputstream
+     *
      * @param is inputStream
      * @return string of inputstream
      */
@@ -174,17 +176,16 @@ public class CustomSearchActivity extends AppCompatActivity {
         String str;
         try {
             br = new BufferedReader(new InputStreamReader(is));
-            while ((str = br.readLine()) != null){
+            while ((str = br.readLine()) != null) {
                 sb.append(str);
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             if (br != null) {
                 try {
                     br.close();
-                } catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -211,12 +212,12 @@ public class CustomSearchActivity extends AppCompatActivity {
             super.onPostExecute(urlResult);
 
             //lat and long URL JSON Parser
-            try{
+            try {
                 locationList.clear();
                 LocationAddress.ITEMS.clear();
 
                 JSONArray locationArray = new JSONArray(urlResult);
-                for(int i=0; i<locationArray.length();i++){
+                for (int i = 0; i < locationArray.length(); i++) {
                     JSONObject locationObject = locationArray.getJSONObject(i);
                     locationName = locationObject.getString("name");
                     distance = locationObject.getInt("distance");
@@ -232,7 +233,7 @@ public class CustomSearchActivity extends AppCompatActivity {
                 Collections.sort(locationList);
                 mListView.setAdapter(locationAdapter);
 
-            } catch (JSONException je){
+            } catch (JSONException je) {
                 je.printStackTrace();
             }
 

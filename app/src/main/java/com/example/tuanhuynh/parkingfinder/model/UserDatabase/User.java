@@ -10,7 +10,8 @@ public class User {
 
     /**
      * Constructor for user
-     * @param email email
+     *
+     * @param email    email
      * @param username username
      * @param password password
      */

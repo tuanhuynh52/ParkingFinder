@@ -1,23 +1,15 @@
 package com.example.tuanhuynh.parkingfinder.controller;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tuanhuynh.parkingfinder.R;
-import com.example.tuanhuynh.parkingfinder.model.DestinationDatabase.MySavedParkingLocation;
 import com.example.tuanhuynh.parkingfinder.model.DestinationDatabase.ParkingLocationDB;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Show detail of a location in saved list
@@ -43,23 +35,23 @@ public class MyLocationDetail extends AppCompatActivity {
         String price = b.getString("extra_price");
         String description = b.getString("extra_description");
 
-        l_name = (TextView)findViewById(R.id.savedName);
+        l_name = (TextView) findViewById(R.id.savedName);
         l_name.setText(locationName);
 
-        l_address = (TextView)findViewById(R.id.savedAddress);
+        l_address = (TextView) findViewById(R.id.savedAddress);
         l_address.setText(address);
 
-        l_type = (TextView)findViewById(R.id.savedType);
+        l_type = (TextView) findViewById(R.id.savedType);
         l_type.setText(type);
 
-        l_price = (TextView)findViewById(R.id.savedPrice);
+        l_price = (TextView) findViewById(R.id.savedPrice);
         l_price.setText(price);
 
-        l_description = (TextView)findViewById(R.id.savedDescription);
+        l_description = (TextView) findViewById(R.id.savedDescription);
         l_description.setMovementMethod(new ScrollingMovementMethod());
         l_description.setText(description);
 
-        Button delete = (Button)findViewById(R.id.deleteButton);
+        Button delete = (Button) findViewById(R.id.deleteButton);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

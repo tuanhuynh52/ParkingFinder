@@ -31,6 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     /**
      * Requires new user to fill out information for registration
+     *
      * @param savedInstanceState saved instance state
      */
     @Override
@@ -40,12 +41,12 @@ public class RegisterActivity extends AppCompatActivity {
         setTitle("REGISTER");
 
         //retrieving Edit texts
-        uName = (EditText)findViewById(R.id.uNameToSignup_editText);
-        Email = (EditText)findViewById(R.id.email_editText);
-        pwd = (EditText)findViewById(R.id.pwd_editText);
-        confirmPwd = (EditText)findViewById(R.id.confirmPwd_editText);
+        uName = (EditText) findViewById(R.id.uNameToSignup_editText);
+        Email = (EditText) findViewById(R.id.email_editText);
+        pwd = (EditText) findViewById(R.id.pwd_editText);
+        confirmPwd = (EditText) findViewById(R.id.confirmPwd_editText);
         //retrieving buttons
-        registerButton = (Button)findViewById(R.id.reg_Button);
+        registerButton = (Button) findViewById(R.id.reg_Button);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,22 +65,22 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }
                 //Passqword input must include at least 4 characters
-                if (password.length()<3){
+                if (password.length() < 3) {
                     Toast.makeText(RegisterActivity.this, "Password must be at least 4 characters",
                             Toast.LENGTH_LONG).show();
                 }//check if email is valid
-                else if (!databaseHelper.isEmailValid(emailStr)){
+                else if (!databaseHelper.isEmailValid(emailStr)) {
                     Toast.makeText(RegisterActivity.this, "Please enter valid email address",
                             Toast.LENGTH_LONG).show();
                 }
                 //if input confirm password is different from inserted password
-                 else if (!password.equals(conPwd)){
+                else if (!password.equals(conPwd)) {
                     Toast.makeText(RegisterActivity.this, "Password Not Match",
                             Toast.LENGTH_LONG).show();
 
                 }
                 // check if email has been registered in the system
-                else if (username.equals(storedUname)){
+                else if (username.equals(storedUname)) {
                     Toast.makeText(RegisterActivity.this, "Username has been already registered",
                             Toast.LENGTH_LONG).show();
                 }
@@ -92,6 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                     Intent backIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(backIntent);
+
                 }
             }
         });

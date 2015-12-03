@@ -14,8 +14,9 @@ public class MySavedParkingLocation {
 
     /**
      * saved parking location constructor
+     *
      * @param location_name location name
-     * @param price price
+     * @param price         price
      */
     public MySavedParkingLocation(String location_name, String address, String type,
                                   String price, String description) {
@@ -69,11 +70,12 @@ public class MySavedParkingLocation {
 
     /**
      * Show string of this object into listview
+     *
      * @return string
      */
     @Override
     public String toString() {
-        return "Name: " + location_name +"\n" +
+        return "Name: " + location_name + "\n" +
                 "Address: " + address + "\n" +
                 "Price: " + price;
     }

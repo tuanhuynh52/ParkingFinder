@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +22,6 @@ import android.widget.Toast;
 import com.example.tuanhuynh.parkingfinder.R;
 import com.example.tuanhuynh.parkingfinder.model.LocationAddress;
 import com.example.tuanhuynh.parkingfinder.model.LocationInfo;
-import com.example.tuanhuynh.parkingfinder.model.UserDatabase.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,20 +34,43 @@ import java.util.List;
 /**
  * this class shows the UI of search activity for user that allows user to search nearby
  * parkings by entering a specific address of destination
- *
  */
 public class FinderActivity extends AppCompatActivity {
-
-    private static final String TAG = "FinderActivity";
+    /*
+    address
+     */
     private String address = "";
+    /*
+    list of location
+     */
     public List<LocationInfo> locationList;
+    /*
+    listview
+     */
     public ListView mListView;
+    /*
+    location adapter
+     */
     public ArrayAdapter<LocationInfo> locationAdapter;
+    /*
+    number of locations found
+     */
     private int numberOfLocation;
+    /*
+    call LocationAddress class
+     */
     public LocationAddress locationAddress;
+    /*
+    holds string api_url, and username
+     */
     public String api_url, uName;
+    /*
+    holds value double latitude and longitude
+     */
     public double lat, lng;
-
+    /*
+    SharedPreferences
+     */
     SharedPreferences mSharePreferences;
 
     @Override
@@ -62,8 +83,6 @@ public class FinderActivity extends AppCompatActivity {
         uName = intent.getStringExtra("Username");
         String welcomeString = "Welcome, " + uName;
         getSupportActionBar().setTitle(welcomeString);
-
-        Log.i(TAG, "On create called");
 
         View b = findViewById(R.id.customButton);
         b.setVisibility(View.GONE);
@@ -98,9 +117,7 @@ public class FinderActivity extends AppCompatActivity {
                         task.execute();
                         View b = findViewById(R.id.customButton);
                         b.setVisibility(View.GONE);
-                        Log.i(TAG, "connected");
-                    } else {
-                        Log.i(TAG, "not connected");
+
                     }
 
                 /*
@@ -176,9 +193,10 @@ public class FinderActivity extends AppCompatActivity {
                         (R.string.SHARED_PREFS), MODE_PRIVATE);
                 SharedPreferences.Editor editor = mSharePreferences.edit();
                 editor.putBoolean(getString(R.string.LOGGEDIN), false);
-                editor.commit();
+                editor.apply();
                 Intent backIntent = new Intent(FinderActivity.this, LoginActivity.class);
                 startActivity(backIntent);
+                finish();
                 return true;
             //show my saved places view
             case R.id.action_show:
@@ -194,13 +212,13 @@ public class FinderActivity extends AppCompatActivity {
     /**
      * shows list view of available locations
      */
-    private void showListView(){
-        mListView = (ListView)findViewById(R.id.listView);
+    private void showListView() {
+        mListView = (ListView) findViewById(R.id.listView);
         locationList = LocationAddress.ITEMS;
         locationAdapter = new ArrayAdapter<LocationInfo>(FinderActivity.this,
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1, locationList);
-        if(numberOfLocation> 0){
+        if (numberOfLocation > 0) {
             mListView.setAdapter(locationAdapter);
         } else {
             mListView.setAdapter(null);
@@ -208,7 +226,7 @@ public class FinderActivity extends AppCompatActivity {
     }
 
     /**
-     *Uses AsyncTask to create a task away from the main UI thread. This task takes a
+     * Uses AsyncTask to create a task away from the main UI thread. This task takes a
      * URL string and uses it to create an HttpUrlConnection. Once the connection
      * has been established, the AsyncTask downloads the contents of the webpage as
      * an InputStream. Finally, the InputStream is converted into a string, which is
@@ -227,6 +245,7 @@ public class FinderActivity extends AppCompatActivity {
 
         /**
          * onPostExecute displays the results of the AsyncTask after getting JSON data from url
+         *
          * @param result all nearby location information displayed to string
          */
         @Override
@@ -247,9 +266,9 @@ public class FinderActivity extends AppCompatActivity {
                 //passing data of number of locations to LocationAddress class
                 LocationAddress.setNumOfLocations(numberOfLocation);
                 //Log.d(TAG, "number of location: " + LocationAddress.getNumOfLocations());
-                if (numberOfLocation == 0){
+                if (numberOfLocation == 0) {
                     Toast.makeText(FinderActivity.this, "No Available Parking Spots Here" + "\n" +
-                            "Please press custom search button",
+                                    "Please press custom search button",
                             Toast.LENGTH_LONG).show();
                     Button customSearch = (Button) findViewById(R.id.customButton);
                     customSearch.setVisibility(View.VISIBLE);
@@ -258,14 +277,14 @@ public class FinderActivity extends AppCompatActivity {
 
                 } else {
                     JSONArray locationArray = parentObj.getJSONArray("parking_listings");
-                    for (int i=0; i<locationArray.length(); i++){
+                    for (int i = 0; i < locationArray.length(); i++) {
                         JSONObject location = locationArray.getJSONObject(i);
                         api_url = location.getString("api_url");
                         //add api url to a list to store a particular parking location information
                         String location_name = location.getString("location_name");
                         int distance = location.getInt("distance");
                         String formatPrice = "Unknown";
-                        if (location.has("price_formatted")){
+                        if (location.has("price_formatted")) {
                             formatPrice = location.getString("price_formatted");
                         }
 

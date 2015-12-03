@@ -30,12 +30,13 @@ public class LocationInfo implements Comparable<LocationInfo> {
     public String getLocation_name() {
         return location_name;
     }
+
     /**
      * Constructor of LocationInfo but providing url_api from web service
      *
      * @param locationName location name
-     * @param distance distance
-     * @param price price
+     * @param distance     distance
+     * @param price        price
      */
     public LocationInfo(String locationName, int distance, String price, String url_api) {
         this.location_name = locationName;
@@ -49,8 +50,8 @@ public class LocationInfo implements Comparable<LocationInfo> {
      * correctly for each item when clicked.
      *
      * @param locationName location name
-     * @param address full address
-     * @param distance distance from searched location to destination
+     * @param address      full address
+     * @param distance     distance from searched location to destination
      */
     public LocationInfo(String locationName, String address, int distance) {
         this.location_name = locationName;
@@ -60,20 +61,22 @@ public class LocationInfo implements Comparable<LocationInfo> {
 
     /***
      * Display string of location name, distance, and price in a item of list view
+     *
      * @return string
      */
     @Override
     public String toString() {
         //Convert ft to mile
 
-        String distanceInMile = String.format("%.1f", distance/5280.00);
+        String distanceInMile = String.format("%.1f", distance / 5280.00);
         return location_name + '\n' +
                 "Distance: " + distanceInMile + " mile"
-                + '\n'+ "Price: " + price;
+                + '\n' + "Price: " + price;
     }
 
     /**
      * Sorting location by shortest distance in ascending order
+     *
      * @param another second distance object
      * @return integer -1, 0, or 1
      */

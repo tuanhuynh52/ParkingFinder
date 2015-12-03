@@ -58,6 +58,7 @@ public class LocationAddress {
 
     /**
      * get number of locations
+     *
      * @return number of location
      */
     public static int getNumOfLocations() {
@@ -66,6 +67,7 @@ public class LocationAddress {
 
     /**
      * set number of locations
+     *
      * @param numOfLocations number of locations
      */
     public static void setNumOfLocations(int numOfLocations) {
@@ -74,6 +76,7 @@ public class LocationAddress {
 
     /**
      * get address of destination
+     *
      * @return address of destination
      */
     public static String getAddress() {
@@ -82,6 +85,7 @@ public class LocationAddress {
 
     /**
      * set address of destination
+     *
      * @param address address
      */
     public static void setAddress(String address) {

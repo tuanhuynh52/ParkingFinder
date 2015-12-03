@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Saved location Database
  * Created by Tuan Huynh on 11/23/2015.
  */
-public class ParkingLocationDB extends SQLiteOpenHelper{
+public class ParkingLocationDB extends SQLiteOpenHelper {
 
     public static final int DB_VERSION = 1;
     public static final String DB_NAME = "MyPlaceDB.db";
@@ -29,6 +29,7 @@ public class ParkingLocationDB extends SQLiteOpenHelper{
 
     /**
      * Constructor saved location database
+     *
      * @param context context
      */
     public ParkingLocationDB(Context context) {
@@ -37,10 +38,9 @@ public class ParkingLocationDB extends SQLiteOpenHelper{
 
     /**
      * insert information of a parking into loggedin account
-     *
      */
     public void addData(String savedUsername, String savedLocationName, String savedAddress,
-                        String savedType, String savedPrice, String savedDescription){
+                        String savedType, String savedPrice, String savedDescription) {
 
         sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -57,11 +57,12 @@ public class ParkingLocationDB extends SQLiteOpenHelper{
 
     /**
      * Delete selected location
-     * @param uName username
+     *
+     * @param uName    username
      * @param location location
      */
     public void deleteLocation(String uName, String location) {
-        String whereClause = UNAME_COLUMN + "=? AND "+ LOCATION_NAME_COLUMN + " =? ";
+        String whereClause = UNAME_COLUMN + "=? AND " + LOCATION_NAME_COLUMN + " =? ";
         String[] args = new String[]{uName, location};
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(TABLE_NAME, whereClause, args);
@@ -78,17 +79,18 @@ public class ParkingLocationDB extends SQLiteOpenHelper{
     /**
      * check if data is existed before inserting new data into database using combination of
      * primary key username and location name
-     * @param username username
+     *
+     * @param username     username
      * @param locationName location name
      * @return true or false
      */
-    public boolean isDataExisted(String username, String locationName){
+    public boolean isDataExisted(String username, String locationName) {
         sqLiteDatabase = this.getReadableDatabase();
-        String Query = "Select * from " + TABLE_NAME + " where "+ UNAME_COLUMN+ " = ? and "
-                +LOCATION_NAME_COLUMN+ " = ?";
+        String Query = "Select * from " + TABLE_NAME + " where " + UNAME_COLUMN + " = ? and "
+                + LOCATION_NAME_COLUMN + " = ?";
 
         Cursor cursor = sqLiteDatabase.rawQuery(Query, new String[]{username, locationName});
-        if(cursor.getCount() <= 0){
+        if (cursor.getCount() <= 0) {
             cursor.close();
             return false;
         }
@@ -102,14 +104,14 @@ public class ParkingLocationDB extends SQLiteOpenHelper{
      * @param username username
      * @return list
      */
-    public ArrayList<MySavedParkingLocation> getAllDataByUName(String username){
+    public ArrayList<MySavedParkingLocation> getAllDataByUName(String username) {
 
         sqLiteDatabase = this.getReadableDatabase();
         ArrayList<MySavedParkingLocation> data = new ArrayList<MySavedParkingLocation>();
 
-        String query = "select * from " + TABLE_NAME + " where "+UNAME_COLUMN+ " = ?";
+        String query = "select * from " + TABLE_NAME + " where " + UNAME_COLUMN + " = ?";
         Cursor c = sqLiteDatabase.rawQuery(query, new String[]{username});
-        if (c.moveToFirst()){
+        if (c.moveToFirst()) {
             do {
                 String locationName = c.getString(c.getColumnIndex(LOCATION_NAME_COLUMN));
                 String address = c.getString(c.getColumnIndex(ADDRESS_COLUMN));
@@ -134,13 +136,13 @@ public class ParkingLocationDB extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
 
         String create_table = "CREATE TABLE " + TABLE_NAME +
-                "("+UNAME_COLUMN+ " text not null, " +
-                LOCATION_NAME_COLUMN+ " text, " +
+                "(" + UNAME_COLUMN + " text not null, " +
+                LOCATION_NAME_COLUMN + " text, " +
                 ADDRESS_COLUMN + " text, " +
-                TYPE_COLUMN + " text, "+
-                PRICE_COLUMN+" text, "+
-                DESCRIPTION_COLUMN+ " text, " +
-                "primary key("+UNAME_COLUMN+", "+LOCATION_NAME_COLUMN+"));" ;
+                TYPE_COLUMN + " text, " +
+                PRICE_COLUMN + " text, " +
+                DESCRIPTION_COLUMN + " text, " +
+                "primary key(" + UNAME_COLUMN + ", " + LOCATION_NAME_COLUMN + "));";
         db.execSQL(create_table);
     }
 
