@@ -75,7 +75,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="REGISTER"
+        android:text="register"
         android:id="@+id/reg_Button"
         android:layout_marginTop="144dp"
         android:textSize="30dp"

@@ -1,6 +1,9 @@
 package com.example.tuanhuynh.parkingfinder.controller;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +16,11 @@ import android.widget.Toast;
 
 import com.example.tuanhuynh.parkingfinder.R;
 import com.example.tuanhuynh.parkingfinder.model.UserDatabase.DatabaseHelper;
+import com.example.tuanhuynh.parkingfinder.model.UserDatabase.User;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 /**
  * LoginActivity class allows user to use their account and password to sign in the app system.
@@ -30,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     Button login and signup
      */
     private Button loginButton, signupButton;
+    private String username, password;
 
     /**
      * Create activity when register button and log in button clicked
@@ -46,6 +55,18 @@ public class LoginActivity extends AppCompatActivity {
 
         uName = (EditText)findViewById(R.id.uNameToLogin_editText);
         pwd = (EditText)findViewById(R.id.pwdToLogin_editText);
+
+        SharedPreferences sharedPreferences = getSharedPreferences
+                (getString(R.string.SHARED_PREFS), MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean(getString(R.string.LOGGEDIN), false);
+        if (isLoggedIn){
+            if(username!= null){
+                Intent newIntent = new Intent(LoginActivity.this, FinderActivity.class);
+                newIntent.putExtra("Username", username);
+                startActivity(newIntent);
+                finish();
+            }
+        }
         /*
         * Sign up button clicked takes user to registration form
          */
@@ -64,11 +85,18 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = uName.getText().toString();
-                String password = pwd.getText().toString();
+                username = uName.getText().toString();
+                password = pwd.getText().toString();
                 //log in successfull using correct username and password
                 String pass = databaseHelper.searchPassword(username);
                 if (pass.equals(password)){
+
+                    SharedPreferences sharedPreferences = getSharedPreferences
+                            (getString(R.string.SHARED_PREFS), MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean(getString(R.string.LOGGEDIN), true);
+                    editor.commit();
+
                     Toast.makeText(LoginActivity.this, "Welcome! " + username,
                             Toast.LENGTH_LONG).show();
                     //change to new search intent
@@ -81,34 +109,10 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Username or Password Incorrect!, Try Again",
                             Toast.LENGTH_LONG).show();
                 }
+
             }
         });
+
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
-    }
-
-    /**
-     * adding menu of items
-     * @param item item
-     * @return boolean true / false
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

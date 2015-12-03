@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.tuanhuynh.parkingfinder.R;
 import com.example.tuanhuynh.parkingfinder.model.LocationAddress;
 import com.example.tuanhuynh.parkingfinder.model.LocationInfo;
+import com.example.tuanhuynh.parkingfinder.model.UserDatabase.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,7 +63,6 @@ public class FinderActivity extends AppCompatActivity {
         String welcomeString = "Welcome, " + uName;
         getSupportActionBar().setTitle(welcomeString);
 
-
         Log.i(TAG, "On create called");
 
         View b = findViewById(R.id.customButton);
@@ -82,7 +82,6 @@ public class FinderActivity extends AppCompatActivity {
                 if (locationList != null) {
                     locationList.clear();
                 }
-
                 if (address.equals("")) {
                     Toast.makeText(FinderActivity.this, "PLease enter your address!",
                             Toast.LENGTH_LONG).show();
@@ -173,7 +172,8 @@ public class FinderActivity extends AppCompatActivity {
         switch (id) {
             //log out action
             case R.id.action_logout:
-                mSharePreferences = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+                mSharePreferences = getSharedPreferences(getString
+                        (R.string.SHARED_PREFS), MODE_PRIVATE);
                 SharedPreferences.Editor editor = mSharePreferences.edit();
                 editor.putBoolean(getString(R.string.LOGGEDIN), false);
                 editor.commit();
