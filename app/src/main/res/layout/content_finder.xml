@@ -18,17 +18,17 @@
         android:orientation="horizontal"
         android:weightSum="1">
         <EditText
-            android:layout_width="285dp"
-            android:layout_height="match_parent"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
             android:inputType="textPostalAddress"
             android:ems="10"
             android:id="@+id/search_EditText"
             android:hint="Address "
             android:textSize="15dp" />
 
-        <Button
+        <ImageButton
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/search_button"
             android:background="@drawable/abc_ic_search_api_mtrl_alpha" />
 

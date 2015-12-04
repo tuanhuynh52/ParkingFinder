@@ -67,10 +67,9 @@ public class LocationInfo implements Comparable<LocationInfo> {
     @Override
     public String toString() {
         //Convert ft to mile
-
         String distanceInMile = String.format("%.1f", distance / 5280.00);
         return location_name + '\n' +
-                "Distance: " + distanceInMile + " mile"
+                "Distance: " + distanceInMile + " Mile"
                 + '\n' + "Price: " + price;
     }
 

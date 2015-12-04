@@ -29,6 +29,8 @@ public class CustomParkingLocation extends AppCompatActivity {
         locationName = b.getString("name_key");
         address = b.getString("address_key");
         int distance = b.getInt("distance_key");
+        //convert ft to mile
+        String distanceInMile = String.format("%.1f", distance / 5280.00);
         mySavedUsername = b.getString("username");
 
         TextView name = (TextView) findViewById(R.id.nameTextView);
@@ -36,7 +38,7 @@ public class CustomParkingLocation extends AppCompatActivity {
         TextView addressTv = (TextView) findViewById(R.id.addressTextView);
         addressTv.setText(address);
         TextView distanceTV = (TextView) findViewById(R.id.distanceTextView);
-        distanceTV.setText(String.valueOf(distance) + " Ft");
+        distanceTV.setText(String.valueOf(distanceInMile) + " Mile");
     }
 
     @Override

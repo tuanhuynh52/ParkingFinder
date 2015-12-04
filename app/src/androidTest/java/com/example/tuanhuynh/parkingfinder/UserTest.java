@@ -8,12 +8,12 @@ import junit.framework.TestCase;
  * User JUnit test
  * Created by Tuan on 12/2/2015.
  */
-public class UserTest extends TestCase{
+public class UserTest extends TestCase {
 
     /**
      * test constructor
      */
-    public void testConstructor(){
+    public void testConstructor() {
         User user = new User("test@gmail.com", "test", "test");
         assertNotNull(user);
 

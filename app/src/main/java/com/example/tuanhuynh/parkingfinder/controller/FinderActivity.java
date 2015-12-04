@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -90,7 +92,7 @@ public class FinderActivity extends AppCompatActivity {
         /*
         retrieve search button actions
          */
-        Button searchButton = (Button) findViewById(R.id.search_button);
+        ImageButton searchButton = (ImageButton) findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,8 +105,9 @@ public class FinderActivity extends AppCompatActivity {
                 }
                 if (address.equals("")) {
                     Toast.makeText(FinderActivity.this, "PLease enter your address!",
-                            Toast.LENGTH_LONG).show();
-                } else {
+                            Toast.LENGTH_SHORT).show();
+                }
+                else {
                 /*
                 * manging connection from the application to networking service
                 * before attempting to fetch url, make sure there is a network connection
@@ -151,11 +154,11 @@ public class FinderActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (address.equals("")) {
                     Toast.makeText(FinderActivity.this, "PLease enter your address!",
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
 
                 } else if (LocationAddress.getNumOfLocations() > 0) {
                     Toast.makeText(FinderActivity.this, "This action is only available if no parking locations found!!",
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 } else { //open custom search activity
                     Intent newIntent = new Intent(FinderActivity.this, CustomSearchActivity.class);
                     Bundle b = new Bundle();
@@ -251,7 +254,6 @@ public class FinderActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            //Log.d(TAG, "result is: "+result);
             locationAddress = new LocationAddress();
             //JSON parser
             try {

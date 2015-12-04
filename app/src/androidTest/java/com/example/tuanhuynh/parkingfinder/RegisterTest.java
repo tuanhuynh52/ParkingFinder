@@ -33,7 +33,7 @@ public class RegisterTest extends ActivityInstrumentationTestCase2<RegisterActiv
     /**
      * testing for activity shows up
      */
-    public void testDataShowUp(){
+    public void testDataShowUp() {
         solo.unlockScreen();
         boolean textUser = solo.searchText("Username");
         boolean textPwd = solo.searchText("Password");
@@ -44,11 +44,11 @@ public class RegisterTest extends ActivityInstrumentationTestCase2<RegisterActiv
     /**
      * testing for successfully registered
      */
-    public void testRegister(){
+    public void testRegister() {
         Random random = new Random();
         int num = random.nextInt(10000);
-        solo.enterText(0, "test"+num);
-        solo.enterText(1, "test"+num + "@gmail.com");
+        solo.enterText(0, "test" + num);
+        solo.enterText(1, "test" + num + "@gmail.com");
         solo.enterText(2, "test");
         solo.enterText(3, "test");
         solo.clickOnButton("register");
@@ -59,7 +59,7 @@ public class RegisterTest extends ActivityInstrumentationTestCase2<RegisterActiv
     /**
      * test duplicated username input
      */
-    public void testDuplicateUsername(){
+    public void testDuplicateUsername() {
         solo.enterText(0, "tuan");
         solo.enterText(1, "thuynh5290@gmail.com");
         solo.enterText(2, "test");
@@ -72,11 +72,11 @@ public class RegisterTest extends ActivityInstrumentationTestCase2<RegisterActiv
     /**
      * test invalid email address input
      */
-    public void testValidEmailAddress(){
+    public void testValidEmailAddress() {
         Random random = new Random();
         int num = random.nextInt(10000);
-        solo.enterText(0, "test"+num);
-        solo.enterText(1, "test"+num + "@gmail");
+        solo.enterText(0, "test" + num);
+        solo.enterText(1, "test" + num + "@gmail");
         solo.enterText(2, "test");
         solo.enterText(3, "test");
         solo.clickOnButton("register");
@@ -87,11 +87,11 @@ public class RegisterTest extends ActivityInstrumentationTestCase2<RegisterActiv
     /**
      * Test verifying incorrect password
      */
-    public void testPasswordMatch(){
+    public void testPasswordMatch() {
         Random random = new Random();
         int num = random.nextInt(10000);
-        solo.enterText(0, "test"+num);
-        solo.enterText(1, "test"+num + "@yahoo.com");
+        solo.enterText(0, "test" + num);
+        solo.enterText(1, "test" + num + "@yahoo.com");
         solo.enterText(2, "test");
         solo.enterText(3, "test11");
         solo.clickOnButton("register");

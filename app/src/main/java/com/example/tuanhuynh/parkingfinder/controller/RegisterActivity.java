@@ -93,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                     Intent backIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(backIntent);
-
+                    finish();
                 }
             }
         });

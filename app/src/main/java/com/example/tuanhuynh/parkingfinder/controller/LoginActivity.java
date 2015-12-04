@@ -57,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
         boolean isLoggedIn = sharedPreferences.getBoolean(getString(R.string.LOGGEDIN), false);
         if (isLoggedIn) {
             String restoredUName = sharedPreferences.getString("select_username", "");
-
             if (!restoredUName.equals("")) {
                 Intent newIntent = new Intent(LoginActivity.this, FinderActivity.class);
                 newIntent.putExtra("Username", restoredUName);
