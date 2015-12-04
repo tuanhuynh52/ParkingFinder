@@ -50,9 +50,9 @@ public class FinderActivityTest extends ActivityInstrumentationTestCase2<FinderA
         solo.clickOnImageButton(0);
 
         String locationName = solo.clickInList(1).get(0).getText().toString();
-        String actualLocation = "Seattle Marriott Waterfront" + "\n" +
-                "Distance: 0.7 Mile" + "\n" +
-                "Price: $37.85";
+        String actualLocation = "Hilton Seattle One Union Square" + "\n" +
+                "Distance: 1.1 Mile" + "\n" +
+                "Price: $15";
         assertEquals("test search failed!", actualLocation, locationName);
     }
 

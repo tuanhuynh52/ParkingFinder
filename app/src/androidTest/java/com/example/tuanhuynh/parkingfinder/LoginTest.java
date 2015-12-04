@@ -42,16 +42,14 @@ public class LoginTest extends ActivityInstrumentationTestCase2<LoginActivity> {
     /**
      * Test login
      */
-    public void testLogin() {
+    public void testLoginSuccess() {
         String username = "tuan";
-        String password = "tuan";
+        String password = "test";
         solo.enterText(0, username);
         solo.enterText(1, password);
         solo.clickOnButton("log in");
         boolean userFound = solo.searchText("Welcome! " + username);
         assertTrue("log in passed!", userFound);
-
-
     }
 
     /**
