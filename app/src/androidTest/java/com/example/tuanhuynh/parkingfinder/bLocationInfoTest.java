@@ -6,7 +6,7 @@ import com.example.tuanhuynh.parkingfinder.model.LocationInfo;
  * JUnit test for LocationInfo with multiple constructors
  * Created by Tuan on 12/2/2015.
  */
-public class LocationInfoTest extends UserTest {
+public class bLocationInfoTest extends bUserTest {
     /**
      * test constructor which has 3 para
      */

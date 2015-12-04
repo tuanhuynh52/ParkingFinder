@@ -11,11 +11,11 @@ import java.util.Random;
  * Register activity test
  * Created by Tuan Huynh on 12/2/2015.
  */
-public class RegisterTest extends ActivityInstrumentationTestCase2<RegisterActivity> {
+public class cRegisterTest extends ActivityInstrumentationTestCase2<RegisterActivity> {
 
     private Solo solo;
 
-    public RegisterTest() {
+    public cRegisterTest() {
         super(RegisterActivity.class);
     }
 
@@ -40,11 +40,22 @@ public class RegisterTest extends ActivityInstrumentationTestCase2<RegisterActiv
         assertTrue("found username editext", textUser);
         assertTrue("found password edittext", textPwd);
     }
-
+    /**
+     * register main account
+      */
+    public void testRegister1() {
+        solo.enterText(0, "tuan" );
+        solo.enterText(1, "test@gmail.com");
+        solo.enterText(2, "tuan");
+        solo.enterText(3, "tuan");
+        solo.clickOnButton("register");
+        boolean userFound = solo.searchText("Account Created Successfully!");
+        assertTrue("User register passed", userFound);
+    }
     /**
      * testing for successfully registered
      */
-    public void testRegister() {
+    public void testRegister2() {
         Random random = new Random();
         int num = random.nextInt(10000);
         solo.enterText(0, "test" + num);
@@ -59,7 +70,7 @@ public class RegisterTest extends ActivityInstrumentationTestCase2<RegisterActiv
     /**
      * test duplicated username input
      */
-    public void testDuplicateUsername() {
+    public void testzDuplicateUsername() {
         solo.enterText(0, "tuan");
         solo.enterText(1, "thuynh5290@gmail.com");
         solo.enterText(2, "test");

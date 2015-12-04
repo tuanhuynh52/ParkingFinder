@@ -12,11 +12,11 @@ import com.robotium.solo.Solo;
  * Junit test for FinderActivity using Robotium
  * Created by Tuan Huynh on 12/2/2015.
  */
-public class FinderActivityTest extends ActivityInstrumentationTestCase2<FinderActivity> {
+public class eFinderActivityTest extends ActivityInstrumentationTestCase2<FinderActivity> {
 
     private Solo solo;
 
-    public FinderActivityTest() {
+    public eFinderActivityTest() {
         super(FinderActivity.class);
     }
 
@@ -49,7 +49,7 @@ public class FinderActivityTest extends ActivityInstrumentationTestCase2<FinderA
         solo.enterText(0, "400 broad st Seattle");
         solo.clickOnImageButton(0);
 
-        String locationName = solo.clickInList(1).get(0).getText().toString();
+        String locationName = solo.clickInList(2).get(0).getText().toString();
         String actualLocation = "Hilton Seattle One Union Square" + "\n" +
                 "Distance: 1.1 Mile" + "\n" +
                 "Price: $15";

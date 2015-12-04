@@ -11,11 +11,11 @@ import com.robotium.solo.Solo;
  * Login Activity Test
  * Created by Tuan Huynh on 12/2/2015.
  */
-public class LoginTest extends ActivityInstrumentationTestCase2<LoginActivity> {
+public class dLoginTest extends ActivityInstrumentationTestCase2<LoginActivity> {
 
     private Solo solo;
 
-    public LoginTest() {
+    public dLoginTest() {
         super(LoginActivity.class);
     }
 
@@ -44,7 +44,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2<LoginActivity> {
      */
     public void testLoginSuccess() {
         String username = "tuan";
-        String password = "test";
+        String password = "tuan";
         solo.enterText(0, username);
         solo.enterText(1, password);
         solo.clickOnButton("log in");

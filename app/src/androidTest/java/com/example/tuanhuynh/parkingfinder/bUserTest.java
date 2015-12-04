@@ -8,7 +8,7 @@ import junit.framework.TestCase;
  * User JUnit test
  * Created by Tuan on 12/2/2015.
  */
-public class UserTest extends TestCase {
+public class bUserTest extends TestCase {
 
     /**
      * test constructor
