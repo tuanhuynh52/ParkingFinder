@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +21,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.tuanhuynh.parkingfinder.R;
-import com.example.tuanhuynh.parkingfinder.model.LocationAddress;
-import com.example.tuanhuynh.parkingfinder.model.LocationInfo;
+import com.example.tuanhuynh.parkingfinder.model.LocationModel.LocationAddress;
+import com.example.tuanhuynh.parkingfinder.model.LocationModel.LocationInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;

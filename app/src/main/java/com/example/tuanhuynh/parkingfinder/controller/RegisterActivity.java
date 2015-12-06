@@ -19,7 +19,7 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * Database helper field
      */
-    DatabaseHelper databaseHelper = new DatabaseHelper(this);
+    DatabaseHelper databaseHelper;
     /**
      * Edittext
      */
@@ -39,6 +39,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         setTitle("REGISTER");
+
+        databaseHelper = new DatabaseHelper(this);
 
         //retrieving Edit texts
         uName = (EditText) findViewById(R.id.uNameToSignup_editText);
@@ -98,4 +100,5 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
 }

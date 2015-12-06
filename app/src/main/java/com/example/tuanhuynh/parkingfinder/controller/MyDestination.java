@@ -20,7 +20,6 @@ import java.util.List;
  */
 public class MyDestination extends AppCompatActivity {
 
-    private static final String TAG = "MyDestination";
     private ListView mySavedListView;
 
     public ArrayAdapter<MySavedParkingLocation> myArrayAdapter;

@@ -1,6 +1,6 @@
 package com.example.tuanhuynh.parkingfinder;
 
-import com.example.tuanhuynh.parkingfinder.model.LocationInfo;
+import com.example.tuanhuynh.parkingfinder.model.LocationModel.LocationInfo;
 
 /**
  * JUnit test for LocationInfo with multiple constructors

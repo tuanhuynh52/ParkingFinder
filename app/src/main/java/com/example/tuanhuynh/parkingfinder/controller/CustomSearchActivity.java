@@ -15,8 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.tuanhuynh.parkingfinder.R;
-import com.example.tuanhuynh.parkingfinder.model.LocationAddress;
-import com.example.tuanhuynh.parkingfinder.model.LocationInfo;
+import com.example.tuanhuynh.parkingfinder.model.LocationModel.LocationAddress;
+import com.example.tuanhuynh.parkingfinder.model.LocationModel.LocationInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;

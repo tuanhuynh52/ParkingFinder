@@ -1,6 +1,6 @@
 package com.example.tuanhuynh.parkingfinder.controller;
 
-import com.example.tuanhuynh.parkingfinder.model.LocationAddress;
+import com.example.tuanhuynh.parkingfinder.model.LocationModel.LocationAddress;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +17,10 @@ import java.net.URL;
  * Created by Tuan Huynh on 11/8/2015.
  */
 public class JSONAddressUrl {
-
+    /**
+     * convert to full address
+     * @return
+     */
     private static String AddressURL() {
         /*
         Retrieve data from SearchEditText

@@ -16,7 +16,6 @@ import com.example.tuanhuynh.parkingfinder.model.DestinationDatabase.ParkingLoca
  */
 public class MyLocationDetail extends AppCompatActivity {
 
-    private static final String TAG = "Detail activity";
     private TextView l_name, l_address, l_type, l_price, l_description;
     private String uName, locationName, address;
 
